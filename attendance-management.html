@@ -1,0 +1,608 @@
+<title>Attendance Management — Market Partner</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-alt:#f1f2f6;
+    --bg-raised:#ffffff;
+    --ink:#0b0b12;
+    --ink-soft:#51515f;
+    --ink-faint:#8a8a98;
+    --brand:#0000ff;
+    --brand-ink:#0000ff;
+    --accent:#e62db4;
+    --border:#e1e2ea;
+    --border-soft:#eceef3;
+    --footer-bg:#0b0b12;
+    --footer-ink:#f1f1f5;
+    --footer-ink-soft:#9a9aab;
+    --shadow: 0 1px 2px rgba(11,11,18,0.04);
+    --focus: #0000ff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0a0a12;
+      --bg-alt:#14141f;
+      --bg-raised:#181823;
+      --ink:#f2f2f7;
+      --ink-soft:#b3b3c2;
+      --ink-faint:#77778a;
+      --brand:#5b6bff;
+      --brand-ink:#5b6bff;
+      --accent:#ff57d0;
+      --border:#26263a;
+      --border-soft:#1d1d2c;
+      --footer-bg:#050508;
+      --footer-ink:#f2f2f7;
+      --footer-ink-soft:#82829a;
+      --shadow: 0 1px 2px rgba(0,0,0,0.4);
+      --focus: #8d97ff;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0a12;
+    --bg-alt:#14141f;
+    --bg-raised:#181823;
+    --ink:#f2f2f7;
+    --ink-soft:#b3b3c2;
+    --ink-faint:#77778a;
+    --brand:#5b6bff;
+    --brand-ink:#5b6bff;
+    --accent:#ff57d0;
+    --border:#26263a;
+    --border-soft:#1d1d2c;
+    --footer-bg:#050508;
+    --footer-ink:#f2f2f7;
+    --footer-ink-soft:#82829a;
+    --shadow: 0 1px 2px rgba(0,0,0,0.4);
+    --focus: #8d97ff;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ -webkit-text-size-adjust:100%; }
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Hanken Grotesk","Akkurat Pro",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-weight:300;
+    font-size:17px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+  img,svg{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  ul{ margin:0; padding:0; list-style:none; }
+  h1,h2,h3,h4,p{ margin:0; }
+  h1,h2,h3,h4{ font-weight:800; text-wrap:balance; letter-spacing:-0.01em; line-height:1.12; }
+  button{ font-family:inherit; cursor:pointer; }
+  :focus-visible{ outline:2px solid var(--focus); outline-offset:3px; border-radius:2px; }
+
+  .wrap{ max-width:1280px; margin:0 auto; padding:0 40px; }
+  @media (max-width:720px){ .wrap{ padding:0 22px; } }
+
+  .eyebrow{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:13px;
+    letter-spacing:0.06em;
+    text-transform:uppercase;
+    color:var(--brand-ink);
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .eyebrow .num{ color:var(--accent); }
+
+  /* ---------- header ---------- */
+  header.site{
+    position:sticky; top:0; z-index:40;
+    background:color-mix(in srgb, var(--bg-alt) 88%, transparent);
+    backdrop-filter:blur(10px) saturate(1.2);
+    -webkit-backdrop-filter:blur(10px) saturate(1.2);
+    border-bottom:1px solid var(--border-soft);
+  }
+  .site-nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 0;
+  }
+  .logo{ display:flex; align-items:center; gap:12px; }
+  .logo svg{ height:22px; width:auto; }
+  .logo svg path{ fill:var(--brand); transition:fill .2s; }
+  .logo-name{ font-weight:600; font-size:19px; letter-spacing:-0.01em; }
+
+  nav.links{ display:flex; align-items:center; gap:34px; }
+  .nav-link{
+    font-size:15px; font-weight:500; color:var(--ink);
+    padding:8px 0; display:inline-flex; align-items:center; gap:6px;
+  }
+  .nav-link:hover{ color:var(--brand-ink); }
+  .nav-item{ position:relative; }
+  .caret{ width:9px; height:9px; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:rotate(45deg); margin-top:-3px; opacity:.6; transition:transform .15s; }
+
+  .dropdown{
+    position:absolute; top:calc(100% + 14px); left:50%; transform:translateX(-50%);
+    background:var(--bg-raised); border:1px solid var(--border); border-radius:16px;
+    box-shadow:0 18px 40px rgba(11,11,18,0.14);
+    padding:16px; width:520px;
+    opacity:0; visibility:hidden; translate:0 6px;
+    transition:opacity .16s ease, translate .16s ease, visibility .16s;
+  }
+  .nav-item:hover .dropdown, .nav-item:focus-within .dropdown{ opacity:1; visibility:visible; translate:0 0; }
+  .dropdown a{
+    display:flex; align-items:baseline; gap:10px;
+    padding:10px 12px; border-radius:9px; font-size:14px; color:var(--ink); line-height:1.3;
+  }
+  .dropdown a:hover{ background:var(--bg-alt); color:var(--brand-ink); }
+  .dropdown a .n{ font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--accent); flex:none; }
+  .dropdown-groups{ display:grid; grid-template-columns:1.2fr 0.8fr; gap:2px 14px; }
+  .dropdown-group h6{ margin:2px 12px 6px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; font-weight:500; text-transform:uppercase; letter-spacing:.07em; color:var(--ink-faint); }
+  .dropdown-custom{ margin-top:8px; padding-top:10px; border-top:1px solid var(--border); }
+  .dropdown-custom a{ background:var(--bg-alt); }
+  .dropdown-custom a:hover{ background:var(--border-soft); }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 22px; border-radius:999px; font-size:14.5px; font-weight:600;
+    border:1px solid transparent; white-space:nowrap;
+  }
+  .btn-primary{ background:var(--brand); color:#fff; }
+  .btn-primary:hover{ opacity:.88; }
+  .btn-ghost{ border-color:var(--border); color:var(--ink); }
+  .btn-ghost:hover{ border-color:var(--brand); color:var(--brand-ink); }
+  .btn-arrow{ transition:translate .15s; }
+  .btn:hover .btn-arrow{ translate:3px 0; }
+
+  .menu-toggle{ display:none; background:none; border:none; color:var(--ink); padding:6px; }
+  .mobile-cta{ display:none; }
+  @media (max-width:900px){
+    .site-nav{ position:relative; }
+    nav.links{
+      display:none;
+      position:absolute; top:100%; left:0; right:0;
+      flex-direction:column; align-items:stretch; gap:0;
+      background:var(--bg-raised); border-bottom:1px solid var(--border);
+      box-shadow:0 18px 40px rgba(11,11,18,0.14);
+      max-height:calc(100vh - 76px); overflow-y:auto;
+      padding:8px 0 18px;
+    }
+    nav.links.mobile-open{ display:flex; }
+    nav.links .nav-link{ width:100%; padding:14px 24px; border-bottom:1px solid var(--border-soft); }
+    .nav-item{ width:100%; }
+    .nav-item .dropdown{
+      position:static; opacity:1; visibility:visible; translate:none; transform:none; left:auto; top:auto;
+      display:none; width:100%; box-shadow:none; border:none; border-radius:0;
+      background:var(--bg-alt); padding:6px 12px 14px;
+    }
+    .nav-item.mobile-expanded .dropdown{ display:block; }
+    .nav-item .dropdown-groups{ grid-template-columns:1fr; gap:14px; }
+    .nav-item .dropdown-group h6{ margin-top:10px; }
+    .nav-item.mobile-expanded .caret{ transform:rotate(225deg); }
+    .header-cta{ display:none; }
+    .menu-toggle{ display:flex; }
+    .mobile-cta{ display:flex; margin:16px 24px 0; justify-content:center; }
+  }
+
+  /* ---------- backlink ---------- */
+  .backbar{ padding:14px 0 0; }
+  .backlink{ font-size:13.5px; color:var(--ink-faint); display:inline-flex; align-items:center; gap:6px; }
+  .backlink:hover{ color:var(--brand-ink); }
+
+  /* ---------- hero ---------- */
+  .hero{ padding:40px 0 76px; background:var(--bg-alt); }
+  .hero-grid{ display:grid; grid-template-columns:1.15fr 0.85fr; gap:60px; align-items:center; }
+  @media (max-width:900px){ .hero-grid{ grid-template-columns:1fr; gap:44px; } }
+  .hero h1{ font-size:clamp(36px,4.8vw,58px); line-height:1.04; color:var(--brand-ink); margin-top:18px; }
+  .hero .lede{ margin-top:22px; font-size:19px; color:var(--ink-soft); max-width:46ch; }
+  .hero .cta-row{ margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; }
+
+  .hero-panel{
+    position:relative; aspect-ratio:1/1; border-radius:28px;
+    background:
+      radial-gradient(circle at 30% 24%, color-mix(in srgb, var(--brand) 22%, transparent), transparent 60%),
+      radial-gradient(circle at 76% 74%, color-mix(in srgb, var(--accent) 20%, transparent), transparent 55%),
+      var(--bg-raised);
+    border:1px solid var(--border);
+    overflow:hidden;
+  }
+  .hero-panel .grid-lines{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in srgb, var(--ink) 6%, transparent) 1px, transparent 1px);
+    background-size:14.28% 14.28%;
+  }
+  .hero-panel .mark{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; }
+  .hero-panel .mark svg{ width:32%; height:auto; color:var(--brand-ink); }
+  .hero-panel .mark svg path,.hero-panel .mark svg rect,.hero-panel .mark svg circle{ stroke:currentColor; }
+  .hero-panel .chip{
+    position:absolute; background:var(--bg-raised); border:1px solid var(--border);
+    border-radius:12px; padding:10px 14px; box-shadow:var(--shadow);
+    font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-soft);
+    display:flex; align-items:center; gap:8px;
+  }
+  .hero-panel .chip .dot{ width:7px; height:7px; border-radius:50%; background:var(--accent); }
+  .hero-panel .chip.c1{ top:9%; left:8%; }
+  .hero-panel .chip.c2{ bottom:11%; right:7%; }
+
+  /* ---------- section shell ---------- */
+  .sec{ padding:88px 0; border-top:1px solid var(--border-soft); }
+  .sec.alt{ background:var(--bg-alt); }
+  .sec h2{ font-size:clamp(30px,3.6vw,42px); margin-top:14px; max-width:20ch; }
+  .sec .sub{ margin-top:16px; color:var(--ink-soft); max-width:54ch; font-size:16px; }
+
+  /* ---------- compare cards ---------- */
+  .compare-grid{ margin-top:46px; display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  @media (max-width:860px){ .compare-grid{ grid-template-columns:1fr; } }
+  .compare-card{ background:var(--bg-raised); border:1px solid var(--border); border-radius:20px; padding:32px; }
+  .compare-card .kicker{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+  .compare-card h3{ margin-top:10px; font-size:24px; font-weight:700; }
+  .compare-card p{ margin-top:10px; color:var(--ink-soft); font-size:15px; }
+  .compare-card ul{ margin-top:22px; display:flex; flex-direction:column; gap:12px; }
+  .compare-card li{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; color:var(--ink-soft); }
+  .compare-card .chev{ flex:none; margin-top:5px; width:10px; height:10px; }
+  .compare-card .chev path{ stroke:var(--accent); }
+  .compare-card b{ color:var(--ink); font-weight:500; }
+
+  /* ---------- steps ---------- */
+  .steps-grid{ margin-top:46px; display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:var(--border); border:1px solid var(--border); border-radius:18px; overflow:hidden; }
+  @media (max-width:760px){ .steps-grid{ grid-template-columns:1fr 1fr; } }
+  .step{ background:var(--bg-raised); padding:26px 22px; }
+  .step .n{ font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--accent); }
+  .step h4{ margin-top:12px; font-size:18px; font-weight:700; }
+  .step p{ margin-top:8px; font-size:14px; color:var(--ink-soft); }
+
+  /* ---------- app features ---------- */
+  .app-grid{ margin-top:44px; display:grid; grid-template-columns:1fr 1fr; gap:16px 40px; }
+  @media (max-width:760px){ .app-grid{ grid-template-columns:1fr; } }
+  .app-grid li{ display:flex; gap:12px; align-items:flex-start; font-size:15.5px; color:var(--ink); }
+  .app-grid .chev{ flex:none; margin-top:5px; width:11px; height:11px; }
+  .app-grid .chev path{ stroke:var(--accent); }
+
+  /* ---------- connected products ---------- */
+  .connected-grid{ margin-top:28px; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:760px){ .connected-grid{ grid-template-columns:1fr; } }
+  .connected-card{
+    display:flex; align-items:center; justify-content:space-between; gap:14px;
+    padding:20px 24px; border:1px solid var(--border); border-radius:16px; background:var(--bg-raised);
+  }
+  .connected-card:hover{ border-color:var(--brand); }
+  .connected-card .lbl{ font-size:12px; font-family:"IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-faint); }
+  .connected-card h4{ margin-top:6px; font-size:18px; font-weight:700; }
+  .connected-card svg{ flex:none; width:16px; height:16px; color:var(--brand-ink); }
+
+  /* ---------- trust strip ---------- */
+  .trust{ padding:52px 0; border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft); }
+  .trust-grid{ display:flex; flex-wrap:wrap; gap:14px 40px; justify-content:center; }
+  .trust-item{ display:flex; align-items:center; gap:10px; font-size:14px; color:var(--ink-soft); font-weight:500; }
+  .trust-item svg{ width:16px; height:16px; color:var(--brand-ink); }
+
+  /* ---------- CTA / contact ---------- */
+  .cta-band{ background:var(--footer-bg); color:var(--footer-ink); padding:100px 0 70px; }
+  .cta-inner{ display:grid; grid-template-columns:1fr 0.85fr; gap:60px; }
+  @media (max-width:860px){ .cta-inner{ grid-template-columns:1fr; gap:40px; } }
+  .cta-band h2{ font-size:clamp(28px,3.6vw,42px); color:#fff; margin-top:16px; max-width:14ch; }
+  .cta-band .sub{ margin-top:16px; color:var(--footer-ink-soft); max-width:42ch; font-size:16px; }
+  .cta-band .cta-row{ margin-top:30px; display:flex; gap:14px; flex-wrap:wrap; }
+  .cta-band .btn-ghost{ border-color:#33334a; color:#fff; }
+  .cta-band .btn-ghost:hover{ border-color:var(--brand); }
+
+  .contact-card{ background:#12121c; border:1px solid #26263a; border-radius:20px; padding:32px; }
+  .contact-card .row{ display:flex; flex-direction:column; gap:6px; padding:16px 0; border-bottom:1px solid #24243a; }
+  .contact-card .row:last-child{ border-bottom:none; padding-bottom:0; }
+  .contact-card .row:first-child{ padding-top:0; }
+  .contact-card label{ font-size:12px; font-family:"IBM Plex Mono",monospace; text-transform:uppercase; letter-spacing:.05em; color:var(--footer-ink-soft); }
+  .contact-card a.email{ font-size:19px; font-weight:500; color:#fff; }
+  .contact-card a.email:hover{ color:var(--brand); }
+  .contact-card .addr{ font-size:14.5px; color:var(--footer-ink-soft); line-height:1.6; }
+
+  /* ---------- footer ---------- */
+  footer.site{ background:var(--footer-bg); color:var(--footer-ink-soft); padding:34px 0 44px; }
+  .footer-row{ display:flex; justify-content:space-between; align-items:center; gap:20px; flex-wrap:wrap; font-size:13px; border-top:1px solid #201f2e; padding-top:28px; }
+  .footer-row .logo svg path{ fill:#fff; opacity:.9; }
+  .footer-row .logo-name{ color:#fff; font-size:15px; }
+  .footer-links{ display:flex; gap:26px; flex-wrap:wrap; }
+  .footer-links a:hover{ color:#fff; }
+
+  .theme-toggle{
+    position:fixed; right:20px; bottom:20px; z-index:50;
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-raised); border:1px solid var(--border); border-radius:999px;
+    padding:9px 14px; font-size:12.5px; font-weight:500; color:var(--ink-soft);
+    box-shadow:0 10px 24px rgba(11,11,18,0.14);
+  }
+</style>
+
+<header class="site">
+  <div class="wrap site-nav">
+    <a class="logo" href="index.html" aria-label="Market Partner home">
+      <svg viewBox="0 0 847.97 75.32" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M3.64 75.08a3.65 3.65 0 01-3-5.72L46.37 3.68a8.44 8.44 0 0113.84 0l21.4 30.52a3.66 3.66 0 01-6 4.18L54.27 7.85a1.2 1.2 0 00-1.94 0L6.64 73.51a3.65 3.65 0 01-3 1.57z" fill="#00f"/><path d="M256.69 73.26V13.58l-22 58.68h-7l-22-59.18v60.18h-8.39V2.5h12.78l21.36 57.59L252.69 2.5h12.48v70.76zm61.58.71c-4.49 0-7.27-3.4-7.27-7.7h-.2c-2.89 5.09-9.18 8.29-16.26 8.29-11.58 0-17.37-7.79-17.37-15.57 0-6.49 4.19-15 18-15.77l15.38-.9v-3.69c0-2.5-.3-5.59-2.6-7.69-1.7-1.59-4.19-2.59-8.28-2.59-4.59 0-7.49 1.29-9.19 3a8.3 8.3 0 00-2.49 6.09h-8.29a14.94 14.94 0 014.3-10.59c3.39-3.59 9.38-5.39 15.57-5.39 9.78 0 15.37 4.19 17.76 9.68a19.33 19.33 0 011.5 7.79v24.45c0 2.69 1.1 3.39 2.79 3.39a12.32 12.32 0 002.2-.3v6.29a11.73 11.73 0 01-5.55 1.21zm-7.78-25l-13.58.8c-5.09.3-11.08 2.69-11.08 9.08 0 4.49 2.8 8.68 10 8.68a14.22 14.22 0 0010.38-4.09 16.28 16.28 0 004.3-11.48zM357 30.64a13.87 13.87 0 00-9.58 4c-4.1 3.9-4.6 10.88-4.6 16.17v22.45h-8.38v-50.5h7.49l.69 8.88c2.6-6.19 8.69-9.18 15.08-9.18a26.9 26.9 0 014 .3v8.28a24.83 24.83 0 00-4.7-.4zm46.51 42.62l-15.77-24.35-9.68 10.78v13.57h-8.49V1.2h8.49v47l22.85-25.45h10.28l-18 20 19.86 30.54zM460.6 50.8h-35.73a18.62 18.62 0 004.89 12.68 12.66 12.66 0 009.24 3.59c4 0 7.29-1.1 9.39-3.29a10.79 10.79 0 003-5.49h8.29a18.63 18.63 0 01-7.79 12.48A23.29 23.29 0 01439 74.56a21.53 21.53 0 01-16.72-7.59c-4.19-4.89-6.28-11.58-6.28-18.76 0-6.09 1.1-11.48 3.89-16.17A21.63 21.63 0 01439 21.46a20.36 20.36 0 0115.32 6.51 26 26 0 016.38 17.76zm-11.67-17.56a12 12 0 00-10-4.59c-9.19 0-13.68 7.48-13.88 14.87H452a17.68 17.68 0 00-3.07-10.28zm38.62 40.73c-10.88 0-13.87-6.89-13.87-13.67V30.04h-9.78v-7.28h9.78V9.88l8.48-2v14.88h15v7.28h-15v29.25c0 4.89 2.1 6.88 6.79 6.88a62.86 62.86 0 008.68-.89v7.28a36.46 36.46 0 01-10.08 1.41zm83.74-34c-3.8 3.8-9.58 5.89-17.37 5.89h-17.47v27.4h-8.88V2.5h26.25c8.28 0 14.17 2.29 18 6.38a21.64 21.64 0 015.39 15c-.03 6.86-2.13 12.25-5.92 16.09zm-17.67-29.39h-17.17v27.15h17.27c9.48 0 14.27-4.39 14.27-13.88.01-8.98-5.59-13.27-14.37-13.27zm68.57 63.39c-4.49 0-7.28-3.39-7.28-7.69h-.2c-2.9 5.09-9.19 8.29-16.27 8.29-11.58 0-17.37-7.79-17.37-15.57 0-6.49 4.19-15 18-15.77l15.37-.9v-3.7c0-2.5-.3-5.59-2.6-7.69-1.7-1.59-4.19-2.59-8.28-2.59-4.59 0-7.49 1.29-9.19 3a8.3 8.3 0 00-2.49 6.09h-8.28a14.93 14.93 0 014.4-10.59c3.39-3.59 9.38-5.39 15.57-5.39 9.78 0 15.37 4.19 17.76 9.68a19.33 19.33 0 011.5 7.79v24.45c0 2.69 1.1 3.39 2.79 3.39a12.32 12.32 0 002.2-.3v6.29a11.73 11.73 0 01-5.63 1.21zm-7.78-25l-13.58.8c-5.09.3-11.08 2.69-11.08 9.08 0 4.49 2.8 8.68 10 8.68a14.22 14.22 0 0010.38-4.09 16.28 16.28 0 004.3-11.48zm46.41-18.33a13.89 13.89 0 00-9.58 4c-4.1 3.9-4.59 10.88-4.59 16.17v22.45h-8.39v-50.5h7.49l.7 8.88c2.59-6.19 8.68-9.18 15.07-9.18a26.9 26.9 0 014 .3v8.28a24.76 24.76 0 00-4.7-.4zm32.84 43.33c-10.88 0-13.87-6.89-13.87-13.67V30.04H670v-7.28h9.78V9.88l8.48-2v14.88h15v7.28h-15v29.25c0 4.89 2.1 6.88 6.79 6.88a62.86 62.86 0 008.68-.89v7.28a36.46 36.46 0 01-10.07 1.41zm51.8-.71v-32c0-7.58-3.09-12.08-11.08-12.08-4.89 0-8.78 3.2-11 7.79-1.7 3.69-1.8 9-1.8 12.88v23.41h-8.49v-50.5h7.39l.7 7.58c2.59-5.79 9.58-8.88 15.27-8.88C748 21.46 754 28.35 754 40.02v33.24zm63.78-22.46h-35.73a18.62 18.62 0 004.89 12.68 12.66 12.66 0 009.28 3.59c4 0 7.29-1.1 9.38-3.29a10.72 10.72 0 003-5.49h8.28a18.62 18.62 0 01-7.78 12.48 23.34 23.34 0 01-12.88 3.79 21.53 21.53 0 01-16.76-7.59c-4.2-4.89-6.29-11.58-6.29-18.76 0-6.09 1.09-11.48 3.89-16.17a21.61 21.61 0 0119.06-10.58A20.33 20.33 0 01803 27.97a26 26 0 016.39 17.76zm-11.68-17.56c-2.09-2.8-5.49-4.59-10-4.59-9.18 0-13.67 7.48-13.87 14.87h26.95a17.61 17.61 0 00-3.08-10.28zm45.72-2.6a13.87 13.87 0 00-9.58 4c-4.1 3.9-4.6 10.88-4.6 16.17v22.45h-8.38v-50.5h7.49l.69 8.88c2.6-6.19 8.69-9.18 15.08-9.18a26.9 26.9 0 014 .3v8.28a24.83 24.83 0 00-4.7-.4z" style="isolation:isolate" fill="#00f"/><path d="M134.8 36.71L110.86 3.49A8.47 8.47 0 0099 1.61a8.57 8.57 0 00-2 2L51 69.34a3.66 3.66 0 106 4.19l46-65.76a1.12 1.12 0 01.93-.49 1.07 1.07 0 01.94.48l23.99 33.21a17.13 17.13 0 010 19.54 16.85 16.85 0 01-14 7.34 16.92 16.92 0 01-14-7.37L87.56 42.9l-4.29 6.16L94.9 64.71a24.39 24.39 0 0020 10.39h.1a24.37 24.37 0 0019.88-38.39z" fill="#00f"/><path d="M150.6 75.32a5.87 5.87 0 115.76-5.88 5.71 5.71 0 01-5.76 5.88zm0-10.71a4.85 4.85 0 104.69 4.83 4.57 4.57 0 00-4.69-4.83zm1.29 7.8l-1-2.25h-1.2v2.25h-1.09V66.3h2.25a2 2 0 012.15 1.92 1.82 1.82 0 01-1.1 1.77l1.14 2.42zm-1-5.12h-1.19v1.88h1.19c.64 0 1.06-.28 1.06-1a.93.93 0 00-1.1-.88z" fill="#00f" style="isolation:isolate"/></svg>
+    </a>
+    <nav class="links" aria-label="Primary">
+      <a class="nav-link" href="index.html">Home</a>
+      <a class="nav-link" href="index.html#why-us">Why us</a>
+      <a class="nav-link" href="index.html#case-studies">Case studies</a>
+      <div class="nav-item">
+        <a class="nav-link" href="index.html#platform">What we do <span class="caret"></span></a>
+        <div class="dropdown">
+          <div class="dropdown-groups">
+            <div class="dropdown-group">
+              <h6>Event technology</h6>
+              <a href="companion-app.html"><span class="n">01</span> Event companion app</a>
+              <a href="registration-sites.html"><span class="n">02</span> Registration sites</a>
+              <a href="virtual-event-production.html"><span class="n">03</span> Virtual event production</a>
+              <a href="attendance-management.html"><span class="n">04</span> Attendance management</a>
+              <a href="touchscreen-rental.html"><span class="n">05</span> Touchscreen rental &amp; software</a>
+            </div>
+            <div class="dropdown-group">
+              <h6>Beyond the event</h6>
+              <a href="index.html#content"><span class="n">06</span> Content &amp; community hub</a>
+              <a href="index.html#surveys"><span class="n">07</span> Survey forms</a>
+            </div>
+          </div>
+          <div class="dropdown-custom">
+            <a href="index.html#custom"><span class="n">08</span> Custom solutions &amp; consultancy</a>
+          </div>
+        </div>
+      </div>
+      <a class="nav-link" href="index.html#contact">Contact</a>
+      <a class="btn btn-primary mobile-cta" href="index.html#contact">Talk to our team <span class="btn-arrow">→</span></a>
+    </nav>
+    <a class="btn btn-primary header-cta" href="mailto:hello@marketpartner.com">Talk to our team <span class="btn-arrow">→</span></a>
+    <button class="menu-toggle" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+  </div>
+</header>
+
+<div class="backbar wrap">
+  <a class="backlink" href="index.html#attendance">← Back to Market Partner</a>
+</div>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow"><span class="num">04</span> Event technology — Attendance management</div>
+        <h1>Badging and check-in that never queues</h1>
+        <p class="lede">From on-demand printing to full attendance tracking, Market Partner handles registration through to real-time reporting — with our team on hand onsite when you need extra support.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@marketpartner.com">Talk to our team <span class="btn-arrow">→</span></a>
+          <a class="btn btn-ghost" href="#how-it-works">See how it works</a>
+        </div>
+      </div>
+      <div class="hero-panel" aria-hidden="true">
+        <div class="grid-lines"></div>
+        <div class="mark">
+          <svg viewBox="0 0 24 24" fill="none"><rect x="4" y="3" width="16" height="21" rx="2.5" stroke="currentColor" stroke-width="1"/><circle cx="12" cy="9" r="2.6" stroke="currentColor" stroke-width="1"/><path d="M8 15.5h8" stroke="currentColor" stroke-width="1" stroke-linecap="round"/></svg>
+        </div>
+        <div class="chip c1"><span class="dot"></span> Scan to badge: 3s</div>
+        <div class="chip c2"><span class="dot"></span> Tracked live</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BADGING OPTIONS -->
+  <section class="sec" id="badging">
+    <div class="wrap">
+      <div class="eyebrow"><span class="num">—</span> Badging</div>
+      <h2>Two ways to badge, one system behind both</h2>
+      <p class="sub">Whichever suits the event, on-demand and pre-printed badging both run on the same Market Partner registration and scanning platform — so reporting stays in one place either way.</p>
+      <div class="compare-grid">
+        <div class="compare-card">
+          <div class="kicker">On-demand</div>
+          <h3>Print at the point of scan</h3>
+          <p>The fastest way to badge an event — eco-friendly stock, printed the moment someone checks in.</p>
+          <ul>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> <b>Scan to badge in seconds</b>, right at check-in</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Unique QR codes for breakout and exhibitor scanning</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Bespoke double-sided designs with dynamic data</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Single or double-ended lanyard options</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Eliminates queues and cuts wasted stock</li>
+          </ul>
+        </div>
+        <div class="compare-card">
+          <div class="kicker">Pre-printed</div>
+          <h3>Ready before doors open</h3>
+          <p>Full-colour badges printed ahead of the event, with an onsite printer standing by for the exceptions.</p>
+          <ul>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Full-colour badges printed pre-event, QR codes included</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Walk-in printing and onsite changes handled on the day</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Foam trays and A–Z dividers for fast physical retrieval</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Onsite printer on standby for late registrations</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> <b>The better fit</b> when your guest list locks early</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="sec alt" id="how-it-works">
+    <div class="wrap">
+      <div class="eyebrow"><span class="num">—</span> How it works</div>
+      <h2>Registration to real-time tracking, in four steps</h2>
+      <div class="steps-grid">
+        <div class="step">
+          <div class="n">01</div>
+          <h4>Register</h4>
+          <p>Attendees register through your custom Market Partner registration site.</p>
+        </div>
+        <div class="step">
+          <div class="n">02</div>
+          <h4>QR issued</h4>
+          <p>A unique QR code is emailed to each attendee ahead of the event.</p>
+        </div>
+        <div class="step">
+          <div class="n">03</div>
+          <h4>Scan to print</h4>
+          <p>Scanning the code at check-in triggers the badge — on-demand or from the pre-print stack.</p>
+        </div>
+        <div class="step">
+          <div class="n">04</div>
+          <h4>Tracked live</h4>
+          <p>Attendance and movement across the event are tracked in real time.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCANNING APP -->
+  <section class="sec" id="scanning-app">
+    <div class="wrap">
+      <div class="eyebrow"><span class="num">—</span> Scanning &amp; tracking</div>
+      <h2>One app, the whole event tracked</h2>
+      <p class="sub">The same scanning app that prints and checks in badges also runs the rest of your onsite tracking — no separate system to reconcile afterwards.</p>
+      <ul class="app-grid">
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Attendance monitoring as people arrive and move through the event</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Breakout and workshop management, with room capacity tracked live</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Lead generation and exhibitor booth scanning</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Real-time analytics throughout — not just a report afterwards</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- CONNECTED PRODUCTS -->
+  <section class="sec alt" id="connected">
+    <div class="wrap">
+      <div class="eyebrow"><span class="num">—</span> Works alongside</div>
+      <h2>Badging works best alongside</h2>
+      <div class="connected-grid">
+        <a class="connected-card" href="registration-sites.html">
+          <div>
+            <div class="lbl">02 · Event technology</div>
+            <h4>Registration sites</h4>
+          </div>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a class="connected-card" href="companion-app.html">
+          <div>
+            <div class="lbl">01 · Event technology</div>
+            <h4>Event companion app</h4>
+          </div>
+          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="trust">
+    <div class="wrap trust-grid">
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M13 2L4 14h7l-1 8 10-13h-8l1-7z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Rapid on-demand printing</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l1.8 3.7 4 .6-2.9 2.9.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.9 4-.6L12 3.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Eco-friendly badge stock</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Real-time analytics &amp; tracking</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="8.5" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 19c0-3 2.5-5 5.5-5S14 16 14 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="8.5" r="2.4" stroke="currentColor" stroke-width="1.5"/><path d="M15.5 13.2c2.6.1 4.5 1.9 4.5 4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Onsite &amp; remote support</div>
+      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l1.8 3.7 4 .6-2.9 2.9.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.9 4-.6L12 3.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Fully on-brand throughout</div>
+    </div>
+  </section>
+
+  <!-- CTA / CONTACT -->
+  <section class="cta-band" id="contact">
+    <div class="wrap cta-inner">
+      <div>
+        <div class="eyebrow" style="color:var(--brand);"><span class="num">—</span> Get in touch</div>
+        <h2>Talk to us about your next event</h2>
+        <p class="sub">Tell us the size and shape of your event and we'll recommend on-demand or pre-printed badging, plus how much onsite support makes sense.</p>
+        <div class="cta-row">
+          <a class="btn btn-primary" href="mailto:hello@marketpartner.com">Email hello@marketpartner.com</a>
+          <a class="btn btn-ghost" href="index.html">Back to marketpartner.com</a>
+        </div>
+      </div>
+      <div class="contact-card">
+        <div class="row">
+          <label>Email</label>
+          <a class="email" href="mailto:hello@marketpartner.com">hello@marketpartner.com</a>
+        </div>
+        <div class="row">
+          <label>Studio</label>
+          <div class="addr">The Boathouse Design Studio<br>27 Ferry Road, Teddington<br>Richmond, London TW11 9NN</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="footer-row">
+      <a class="logo" href="index.html" aria-label="Market Partner home">
+        <svg viewBox="0 0 138 78" xmlns="http://www.w3.org/2000/svg" style="height:18px;"><path d="M3.64 75.08a3.65 3.65 0 01-3-5.72L46.37 3.68a8.44 8.44 0 0113.84 0l21.4 30.52a3.66 3.66 0 01-6 4.18L54.27 7.85a1.2 1.2 0 00-1.94 0L6.64 73.51a3.65 3.65 0 01-3 1.57z"/><path d="M134.8 36.71L110.86 3.49A8.47 8.47 0 0099 1.61a8.57 8.57 0 00-2 2L51 69.34a3.66 3.66 0 106 4.19l46-65.76a1.12 1.12 0 01.93-.49 1.07 1.07 0 01.94.48l23.99 33.21a17.13 17.13 0 010 19.54 16.85 16.85 0 01-14 7.34 16.92 16.92 0 01-14-7.37L87.56 42.9l-4.29 6.16L94.9 64.71a24.39 24.39 0 0020 10.39h.1a24.37 24.37 0 0019.88-38.39z"/></svg>
+        <span class="logo-name">Market Partner</span>
+      </a>
+      <div class="footer-links">
+        <a href="index.html#platform">What we do</a>
+        <a href="#contact">Contact</a>
+        <a href="mailto:hello@marketpartner.com">hello@marketpartner.com</a>
+      </div>
+      <span>© 2026 Market Partner. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+  <svg id="themeIcon" viewBox="0 0 24 24" fill="none" style="width:14px;height:14px;"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+  <span id="themeLabel">Theme</span>
+</button>
+
+<script>
+  (function(){
+    var toggle = document.querySelector('.menu-toggle');
+    var nav = document.querySelector('nav.links');
+    if(!toggle || !nav) return;
+    var whatWeDo = nav.querySelector('.nav-item');
+    var trigger = whatWeDo ? whatWeDo.querySelector('.nav-link') : null;
+
+    function closeMenu(){
+      nav.classList.remove('mobile-open');
+      toggle.setAttribute('aria-expanded', 'false');
+      if(whatWeDo) whatWeDo.classList.remove('mobile-expanded');
+    }
+
+    toggle.setAttribute('aria-expanded', 'false');
+    toggle.addEventListener('click', function(){
+      var open = nav.classList.toggle('mobile-open');
+      toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+      if(!open && whatWeDo) whatWeDo.classList.remove('mobile-expanded');
+    });
+
+    if(trigger){
+      trigger.addEventListener('click', function(e){
+        if(window.matchMedia('(max-width:900px)').matches){
+          e.preventDefault();
+          whatWeDo.classList.toggle('mobile-expanded');
+        }
+      });
+    }
+
+    Array.prototype.forEach.call(nav.querySelectorAll('a'), function(a){
+      if(a === trigger) return;
+      a.addEventListener('click', closeMenu);
+    });
+  })();
+</script>
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var label = document.getElementById('themeLabel');
+    function apply(mode){
+      if(mode === 'light' || mode === 'dark'){ root.setAttribute('data-theme', mode); }
+      else { root.removeAttribute('data-theme'); }
+      label.textContent = mode === 'dark' ? 'Dark' : mode === 'light' ? 'Light' : 'Auto';
+    }
+    var current = 'auto';
+    try { current = sessionStorage.getItem('mp-theme') || 'auto'; } catch(e){}
+    apply(current);
+    btn.addEventListener('click', function(){
+      current = current === 'auto' ? 'dark' : current === 'dark' ? 'light' : 'auto';
+      apply(current);
+      try { sessionStorage.setItem('mp-theme', current); } catch(e){}
+    });
+  })();
+</script>
