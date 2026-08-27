@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Touchscreen Rental &amp; Software Development — Market Partner</title>
+<title>Why Us — Market Partner</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -176,6 +176,62 @@
   .footer-links a:hover{ color:#fff; }
   .theme-toggle{ position:fixed; right:20px; bottom:20px; z-index:50; display:flex; align-items:center; gap:8px; background:var(--bg-raised); border:1px solid var(--border); border-radius:999px; padding:9px 14px; font-size:12.5px; font-weight:500; color:var(--ink-soft); box-shadow:0 10px 24px rgba(11,11,18,0.14); }
   .theme-toggle svg{ width:14px; height:14px; }
+  .case{ padding:88px 0; border-top:1px solid var(--border-soft); }
+  .case h2{ font-size:clamp(30px,3.6vw,42px); margin-top:14px; max-width:22ch; }
+  .case .sub{ margin-top:16px; color:var(--ink-soft); max-width:56ch; font-size:16px; }
+  .case-grid{ margin-top:46px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:900px){ .case-grid{ grid-template-columns:1fr; } }
+  .case-card{ background:var(--bg-raised); border:1px solid var(--border); border-radius:20px; padding:30px; display:flex; flex-direction:column; }
+  .case-card .sector{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+  .case-card h4{ margin-top:14px; font-size:20px; font-weight:700; max-width:22ch; }
+  .case-card .lbl{ margin-top:20px; font-family:"IBM Plex Mono",monospace; font-size:11px; letter-spacing:.05em; text-transform:uppercase; color:var(--ink-faint); }
+  .case-card p{ margin-top:6px; font-size:14.5px; color:var(--ink-soft); }
+  .case-card .built-with{ margin-top:22px; padding-top:20px; border-top:1px solid var(--border-soft); display:flex; flex-wrap:wrap; gap:8px; }
+  .case-card .chip{ font-size:12px; font-weight:500; color:var(--brand-ink); background:var(--bg-alt); border-radius:999px; padding:5px 12px; }
+
+  .work-head{ margin-top:80px; padding-top:56px; border-top:1px solid var(--border-soft); }
+  .work-head h3{ font-size:clamp(25px,3vw,32px); margin-top:12px; max-width:26ch; }
+  .work-head .sub{ margin-top:14px; color:var(--ink-soft); max-width:56ch; font-size:15.5px; }
+  .work-grid{ margin-top:38px; display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media (max-width:900px){ .work-grid{ grid-template-columns:1fr; } }
+  .work-card{ background:var(--bg-raised); border:1px solid var(--border); border-radius:20px; overflow:hidden; display:flex; flex-direction:column; }
+  .work-card .photo{ aspect-ratio:4/3; overflow:hidden; }
+  .work-card .photo img{ width:100%; height:100%; object-fit:cover; display:block; }
+  .work-card .body{ padding:24px; }
+  .work-card .sector{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+  .work-card h4{ margin-top:12px; font-size:19px; font-weight:700; max-width:24ch; }
+  .work-card p{ margin-top:10px; font-size:14px; color:var(--ink-soft); }
+  .work-card .built-with{ margin-top:18px; padding-top:16px; border-top:1px solid var(--border-soft); display:flex; flex-wrap:wrap; gap:8px; }
+  .work-card .chip{ font-size:12px; font-weight:500; color:var(--brand-ink); background:var(--bg-alt); border-radius:999px; padding:5px 12px; }
+
+  /* ---------- why us / pillars ---------- */
+  .pillars{ padding:90px 0 80px; border-top:1px solid var(--border-soft); }
+  .pillars h2{ font-size:clamp(30px,3.6vw,42px); margin-top:14px; max-width:22ch; }
+  .pillars-grid{ margin-top:46px; display:grid; grid-template-columns:repeat(3,1fr); gap:38px; }
+  @media (max-width:860px){ .pillars-grid{ grid-template-columns:1fr; gap:34px; } }
+  .pillar{ padding-top:20px; border-top:2px solid var(--brand); }
+  .pillar h4{ font-size:clamp(24px,2.9vw,34px); text-wrap:pretty; }
+  .pillar p{ margin-top:12px; color:var(--ink-soft); font-size:15px; max-width:36ch; }
+
+  .strip{ padding:64px 0; border-bottom:1px solid var(--border-soft); }
+  .strip .lead{ font-size:26px; font-weight:600; color:var(--ink); text-align:center; margin-bottom:34px; letter-spacing:-0.01em; }
+  .strip-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:28px 24px; }
+  @media (max-width:640px){ .strip-grid{ grid-template-columns:repeat(2,1fr); } }
+  .strip-item{ display:flex; flex-direction:column; align-items:center; gap:18px; padding:14px 6px; text-align:center; }
+  .strip-item .ic{ width:clamp(84px,20vw,172px); height:clamp(84px,20vw,172px); display:flex; align-items:center; justify-content:center; border-radius:28%; background:var(--bg-alt); color:var(--brand-ink); }
+  .strip-item .ic svg{ width:50%; height:50%; }
+  .strip-item span{ font-size:13.5px; color:var(--ink-soft); line-height:1.3; }
+
+  /* ---------- platform band ---------- */
+  .platform{ padding:96px 0; }
+  .platform-grid{ display:grid; grid-template-columns:0.95fr 1.05fr; gap:64px; align-items:start; }
+  @media (max-width:860px){ .platform-grid{ grid-template-columns:1fr; gap:36px; } }
+  .platform h2{ font-size:clamp(30px,3.6vw,42px); margin-top:14px; max-width:14ch; }
+  .platform .sub{ margin-top:16px; color:var(--ink-soft); max-width:42ch; }
+  .check-list{ display:flex; flex-direction:column; gap:16px; }
+  .check-list li{ display:flex; gap:14px; align-items:flex-start; font-size:15.5px; color:var(--ink); }
+  .check-list .chev{ flex:none; margin-top:5px; width:11px; height:11px; }
+  .check-list .chev path{ stroke:var(--accent); }
 </style>
 </head>
 <body>
@@ -219,94 +275,106 @@
     <button class="menu-toggle" aria-label="Menu"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6h18M3 12h18M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
   </div>
 </header>
-
-
 <main>
   <section class="hero">
-    <div class="wrap hero-grid">
+    <div class="wrap hero-grid" style="grid-template-columns:1fr;">
       <div>
-        <div class="eyebrow">Event technology — Touchscreen rental &amp; software development</div>
-        <h1>Interactive touchscreens for events and public spaces</h1>
-        <p class="lede">Self-service touchscreen experiences that turn passive visitors into active participants — built, rented and supported by Market Partner, with real-time data on how people actually use them.</p>
+        <div class="eyebrow">Why us</div>
+        <h1>Category-leading tools. A team that stays with it.</h1>
+        <p class="lede">Purpose-built registration, app, badging and content tools — with real project management and bespoke problem-solving built in, all running on a single platform, always in your brand, with one login end to end.</p>
         <div class="cta-row">
           <a class="btn btn-primary" href="mailto:hello@marketpartner.com">Talk to our team <span class="btn-arrow">→</span></a>
-          <a class="btn btn-ghost" href="#capabilities">See what they do</a>
+          <a class="btn btn-ghost" href="#platform">See the platform</a>
         </div>
       </div>
-      <div class="hero-panel" aria-hidden="true">
-        <div class="grid-lines"></div>
-        <div class="mark">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><rect x="3" y="3" width="18" height="14" rx="1.5"/><path d="M9 21h6M12 17v4" stroke-linecap="round"/><circle cx="12" cy="10" r="2.6"/></svg>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="pillars" id="why-us">
+    <div class="wrap">
+      <div class="eyebrow"><span class="num">—</span> Why Market Partner</div>
+      <h2>Software is the easy part. We stay in it with you.</h2>
+      <div class="pillars-grid">
+        <div class="pillar">
+          <h4>Category-leading functionality</h4>
+          <p>The tools event and marketing teams actually need — registration, apps, badging, content and forms — built and refined specifically for this job, not bolted onto a generic form builder.</p>
         </div>
-        <div class="chip c1"><span class="dot"></span> Self-service engagement</div>
-        <div class="chip c2"><span class="dot"></span> Real-time ROI data</div>
+        <div class="pillar">
+          <h4>Real project management, not just software</h4>
+          <p>Most platforms hand you a login and leave you to it. We work alongside your team through planning, build and delivery — including onsite support on the day when you need extra hands — the vital support that keeps a complex event or campaign on track.</p>
+        </div>
+        <div class="pillar">
+          <h4>Bespoke problem-solving</h4>
+          <p>When a brief doesn't fit a template, our team designs and builds the solution — part technology partner, part consultancy, for problems off-the-shelf software can't touch.</p>
+        </div>
       </div>
     </div>
   </section>
 
-  <section class="sec" id="capabilities">
+  <!-- ICON STRIP -->
+  <section class="strip">
     <div class="wrap">
-      <div class="eyebrow"><span class="num">—</span> Touchscreens at events</div>
-      <h2>Smarter, more engaging ways to connect with content</h2>
-      <p class="sub">A seamless self-service experience for attendees, and valuable real-time data for organizers and exhibitors — track engagement, participation, survey responses and content downloads to measure ROI and optimise future events.</p>
-      <div class="feature-grid">
-        <div class="feature-card"><h4>Distribute digital content</h4><p>Share brochures, presentations, videos, QR codes and downloadable resources directly from the screen — no printing costs.</p></div>
-        <div class="feature-card"><h4>Generate high-quality leads</h4><p>Collect attendee information through branded digital forms and CRM-integrated lead capture.</p></div>
-        <div class="feature-card"><h4>Gather instant feedback &amp; surveys</h4><p>Real-time audience insight through interactive surveys, ratings and post-session feedback forms.</p></div>
-        <div class="feature-card"><h4>Display live event agendas</h4><p>Up-to-date schedules, speaker information, session locations and live announcements.</p></div>
-        <div class="feature-card"><h4>Real-time analytics &amp; reporting</h4><p>Track engagement, participation rates, survey responses and content downloads as they happen.</p></div>
-        <div class="feature-card"><h4>Run interactive competitions</h4><p>Gamified experiences, prize draws, quizzes and instant-win competitions that drive footfall.</p></div>
+      <p class="lead">Multiple tools, one Market Partner platform</p>
+      <div class="strip-grid">
+        <a class="strip-item" href="companion-app.html">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3.5" y="4.5" width="17" height="16" rx="2.5" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 9.5h17M8 3v3M16 3v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span>Event app</span>
+        </a>
+        <a class="strip-item" href="registration-sites.html">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="3" stroke="currentColor" stroke-width="1.5"/><path d="M8.5 12.5l2.3 2.3L16 9.7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span>Registration</span>
+        </a>
+        <a class="strip-item" href="virtual-event-production.html">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 20h6M12 17v3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span>Virtual events</span>
+        </a>
+        <a class="strip-item" href="attendance-management.html">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="6" y="3.5" width="12" height="17" rx="2" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9.5" r="2" stroke="currentColor" stroke-width="1.5"/><path d="M9 15.5h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span>Attendance</span>
+        </a>
+        <a class="strip-item" href="touchscreen-rental.html">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><rect x="5" y="3" width="14" height="20" rx="2.5" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="13" r="1.6" stroke="currentColor" stroke-width="1.5"/><path d="M9 13a3 3 0 013-3M15 13a3 3 0 00-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span>Touchscreens</span>
+        </a>
+        <a class="strip-item" href="index.html#content">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M7 3.5h7l4 4V20a1 1 0 01-1 1H7a1 1 0 01-1-1V4.5a1 1 0 011-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M9.5 12h5M9.5 15.5h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span>Content &amp; community hub</span>
+        </a>
+        <a class="strip-item" href="index.html#surveys">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V6.5a2 2 0 012-2h9l5 5V19a1 1 0 01-1 1H5a1 1 0 01-1-1z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M7.5 12h9M7.5 15.5h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></span>
+          <span>Surveys</span>
+        </a>
+        <a class="strip-item" href="index.html#custom">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l1.8 3.7 4 .6-2.9 2.9.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.9 4-.6L12 3.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg></span>
+          <span>Custom solutions</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <section class="sec alt" id="development">
-    <div class="wrap">
-      <div class="eyebrow"><span class="num">—</span> Built for you</div>
-      <h2>Hardware and software, built and supported by us</h2>
-      <p class="sub">We rent the screens and build the software behind them — branded end to end, and integrated with the rest of your Market Partner tools rather than running as a separate system.</p>
-      <div class="connected-grid">
-        <a class="connected-card" href="companion-app.html">
-          <div><div class="lbl">01 · Event technology</div><h4>Event companion app</h4></div>
-          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-        <a class="connected-card" href="index.html#custom">
-          <div><div class="lbl">08 · Custom solutions</div><h4>Bespoke software development</h4></div>
-          <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-      <div class="note">We've built touchscreen experiences for financial data, media and philanthropy brands — from live agendas and speaker walls to branded quiz and lead-capture kiosks. Ask our team for examples relevant to your sector.</div>
-    </div>
-  </section>
-
-  <section class="trust">
-    <div class="wrap trust-grid">
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M4 19V5M4 19h16M8 15l3-4 3 3 4-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Real-time ROI reporting</div>
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><rect x="4" y="10" width="16" height="10" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 10V7a4 4 0 018 0v3" stroke="currentColor" stroke-width="1.5"/></svg> CRM-integrated lead capture</div>
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5l1.8 3.7 4 .6-2.9 2.9.7 4-3.6-1.9-3.6 1.9.7-4-2.9-2.9 4-.6L12 3.5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg> Fully on-brand throughout</div>
-      <div class="trust-item"><svg viewBox="0 0 24 24" fill="none"><circle cx="8.5" cy="8" r="3" stroke="currentColor" stroke-width="1.5"/><path d="M3 19c0-3 2.5-5 5.5-5S14 16 14 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><circle cx="17" cy="8.5" r="2.4" stroke="currentColor" stroke-width="1.5"/><path d="M15.5 13.2c2.6.1 4.5 1.9 4.5 4.8" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg> Built &amp; supported by our team</div>
-    </div>
-  </section>
-
-  <section class="cta-band" id="contact">
-    <div class="wrap cta-inner">
+  <!-- PLATFORM -->
+  <section class="platform" id="platform">
+    <div class="wrap platform-grid">
       <div>
-        <div class="eyebrow" style="color:var(--brand);"><span class="num">—</span> Get in touch</div>
-        <h2>Talk to us about touchscreens for your event or space</h2>
-        <p class="sub">Tell us where you need them and what you want people to do at the screen — we'll recommend the hardware and build the experience around it.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="mailto:hello@marketpartner.com">Email hello@marketpartner.com</a>
-          <a class="btn btn-ghost" href="index.html">Back to marketpartner.com</a>
+        <div class="eyebrow"><span class="num">—</span> The platform</div>
+        <h2>Everything under one roof</h2>
+        <p class="sub">Every registration site, form, app and piece of content runs on the same Market Partner core — so nothing lives in a separate tool, and nothing needs a separate login.</p>
+        <div class="cta-row" style="margin-top:30px;">
+          <a class="btn btn-ghost" href="mailto:hello@marketpartner.com">Ask us how it fits your stack</a>
         </div>
       </div>
-      <div class="contact-card">
-        <div class="row"><label>Email</label><a class="email" href="mailto:hello@marketpartner.com">hello@marketpartner.com</a></div>
-        <div class="row"><label>Studio</label><div class="addr">The Boathouse Design Studio<br>27 Ferry Road, Teddington<br>Richmond, London TW11 9NN</div></div>
-      </div>
+      <ul class="check-list">
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Built entirely in your brand — colours, type, tone, all of it</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> One login covers registrations, forms, apps and content</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom roles keep teams and partners scoped to what they need</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Delivered on a global CDN, fast wherever your audience is</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> GDPR-compliant, with enterprise-grade security throughout</li>
+        <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Real-time analytics from first click to final badge scan</li>
+      </ul>
     </div>
   </section>
 </main>
-
 <footer class="site">
   <div class="wrap">
     <div class="footer-row">
