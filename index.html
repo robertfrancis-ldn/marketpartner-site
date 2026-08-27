@@ -267,7 +267,7 @@
   /* ---------- services ---------- */
   .service{ padding:88px 0; border-top:1px solid var(--border-soft); }
   .service.alt{ background:var(--bg-alt); }
-  .service-grid{ display:grid; grid-template-columns:1fr 0.85fr; gap:64px; align-items:center; }
+  .service-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.85fr); gap:64px; align-items:center; }
   @media (max-width:900px){ .service-grid{ grid-template-columns:1fr; gap:40px; } }
   .service-grid.rev{ direction:rtl; }
   .service-grid.rev > *{ direction:ltr; }
