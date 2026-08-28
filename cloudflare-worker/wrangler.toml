@@ -1,0 +1,12 @@
+name = "marketpartner-ask-widget"
+main = "worker.js"
+compatibility_date = "2026-08-01"
+
+# Secrets (ANTHROPIC_API_KEY, ALLOWED_ORIGIN, and optionally LEAD_WEBHOOK_URL)
+# are NOT set here — never put secrets in this file. Set them after deploying
+# with, e.g.:
+#   wrangler secret put ANTHROPIC_API_KEY
+#   wrangler secret put ALLOWED_ORIGIN
+#   wrangler secret put LEAD_WEBHOOK_URL   (optional)
+#
+# See ../ASK_WIDGET_SETUP.md for the full walkthrough.
