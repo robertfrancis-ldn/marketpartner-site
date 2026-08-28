@@ -373,6 +373,21 @@
     box-shadow:0 10px 24px rgba(11,11,18,0.14);
   }
   .theme-toggle svg{ width:14px; height:14px; }
+
+  /* ---------- AI template control ---------- */
+  .roles{ padding:96px 0; background:var(--bg-alt); border-top:1px solid var(--border-soft); }
+  .roles .sub{ margin-top:18px; max-width:74ch; color:var(--ink-soft); font-size:16px; }
+  .roles-grid{ margin-top:46px; display:grid; grid-template-columns:1fr 1fr; gap:28px; }
+  @media (max-width:860px){ .roles-grid{ grid-template-columns:1fr; } }
+  .role-card{ background:var(--bg-raised); border:1px solid var(--border); border-radius:20px; padding:32px; }
+  .role-card .kicker{ font-family:"IBM Plex Mono",monospace; font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; color:var(--accent); }
+  .role-card h3{ margin-top:10px; font-size:24px; font-weight:700; }
+  .role-card p{ margin-top:10px; color:var(--ink-soft); font-size:15px; }
+  .role-card ul{ margin-top:22px; display:flex; flex-direction:column; gap:12px; }
+  .role-card li{ display:flex; gap:10px; align-items:flex-start; font-size:14.5px; color:var(--ink-soft); }
+  .role-card .chev{ flex:none; margin-top:5px; width:10px; height:10px; }
+  .role-card .chev path{ stroke:var(--accent); }
+  .role-card b{ color:var(--ink); font-weight:500; }
 </style>
 </head>
 <body>
@@ -525,6 +540,37 @@
         <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> GDPR-compliant, with enterprise-grade security throughout</li>
         <li><svg class="chev" viewBox="0 0 12 12" fill="none"><path d="M4 2l5 4-5 4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Real-time analytics from first click to final badge scan</li>
       </ul>
+    </div>
+  </section>
+
+  <!-- AI TEMPLATE CONTROL -->
+  <section class="roles" id="ai-control">
+    <div class="wrap">
+      <div class="eyebrow"><span class="num">—</span> Built with AI, controlled by you</div>
+      <h2>Harness the power of AI. Keep control of what matters.</h2>
+      <p class="sub">Our sites and apps are built as editable templates, with placeholders we define for the content that changes. A technical site owner can shape the template itself directly with AI — layout, structure, new functionality — while the wider team updates agendas, speakers and registration content through a simple CMS, with no access to the underlying build and nothing they can accidentally break. You get the speed of AI-assisted development without your customer data, or your site, ever being at risk.</p>
+      <div class="roles-grid">
+        <div class="role-card">
+          <div class="kicker">Site owner</div>
+          <h3>Works directly with AI</h3>
+          <p>Full technical control over the template — layout, structure, new placeholders and functionality — with every change reviewed before it goes live.</p>
+          <ul>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Edits the template itself, not just the content in it</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Builds new placeholders as the brief evolves</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span> Reviews and approves changes before <b>anything reaches customer data</b></span></li>
+          </ul>
+        </div>
+        <div class="role-card">
+          <div class="kicker">Event manager</div>
+          <h3>Works in your CMS</h3>
+          <p>Updates the content that changes most — agendas, speakers, sessions, registration details — without ever touching the template underneath.</p>
+          <ul>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span> <b>No AI access</b> and no way to touch the build</span></li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Complex, multi-track agendas built and rebuilt in minutes</li>
+            <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Nothing to break — restricted to exactly what they need</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </section>
 
