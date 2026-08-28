@@ -181,8 +181,9 @@
   .theme-toggle svg{ width:14px; height:14px; }
 
   /* ---------- stat callouts ---------- */
-  .stat-row{ margin-top:32px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  @media (max-width:640px){ .stat-row{ grid-template-columns:1fr; } }
+  .stat-row{ margin-top:32px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:860px){ .stat-row{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .stat-row{ grid-template-columns:1fr; } }
   .stat-box{ background:var(--brand); color:#fff; border-radius:14px; padding:22px 24px; font-size:17px; font-weight:600; line-height:1.35; }
 
   /* ---------- compare cards (content vs community) ---------- */
@@ -279,6 +280,7 @@
       <div class="stat-row">
         <div class="stat-box">Senior executives consistently rank peer networks among their most valued sources of insight.</div>
         <div class="stat-box">People are far more likely to act on advice from a trusted peer than from an unfamiliar consultant.</div>
+        <div class="stat-box">Leaders place greater trust in insights from people who have faced similar challenges and made similar decisions themselves.</div>
       </div>
     </div>
   </section>
