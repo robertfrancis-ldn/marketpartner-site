@@ -20,7 +20,16 @@
   var ASK_WORKER_URL = "REPLACE-WITH-YOUR-WORKER-URL";
   // --------------------------------------------------------------
 
-  if (!ASK_WORKER_URL || ASK_WORKER_URL.indexOf("REPLACE-WITH") !== -1) {
+  // ---- TEMPORARY PREVIEW MODE ----
+  // While true, the widget shows canned demo replies instead of calling a
+  // real backend — no Cloudflare Worker needed yet. This lets you see and
+  // click through the actual UI on the live site before setting anything
+  // up. Set to false (and set ASK_WORKER_URL above) once the real backend
+  // is deployed — see ASK_WIDGET_SETUP.md.
+  var DEMO_MODE = true;
+  // ---------------------------------
+
+  if (!DEMO_MODE && (!ASK_WORKER_URL || ASK_WORKER_URL.indexOf("REPLACE-WITH") !== -1)) {
     return; // not configured yet — don't show a non-functional widget
   }
 
@@ -68,13 +77,19 @@
   panel.setAttribute("aria-label", "Ask Market Partner");
   panel.innerHTML =
     '<div class="mp-ask-head">' +
-    "<div><strong>Ask Market Partner</strong><span>AI assistant &middot; usually instant</span></div>" +
+    "<div><strong>Ask Market Partner</strong><span>" +
+    (DEMO_MODE ? "Preview mode &middot; canned demo replies" : "AI assistant &middot; usually instant") +
+    "</span></div>" +
     '<button type="button" class="mp-ask-close" aria-label="Close">&times;</button>' +
     "</div>" +
     '<div class="mp-ask-body" id="mpAskBody">' +
     '<div class="mp-ask-msg bot">Hi &mdash; ask me anything about Market Partner’s platform, services or how we work. For anything urgent, email hello@marketpartner.com.</div>' +
     "</div>" +
-    '<div class="mp-ask-disclosure">AI assistant &mdash; answers may be imperfect.</div>' +
+    '<div class="mp-ask-disclosure">' +
+    (DEMO_MODE
+      ? "Preview mode &mdash; these are canned demo replies, not a live AI yet."
+      : "AI assistant &mdash; answers may be imperfect.") +
+    "</div>" +
     '<div class="mp-ask-foot">' +
     '<input type="text" id="mpAskInput" placeholder="Type a question&hellip;" maxlength="500" />' +
     '<button type="button" id="mpAskSend">Send</button>' +
@@ -130,14 +145,24 @@
           break;
         }
       }
-      fetch(ASK_WORKER_URL + "/lead", {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: JSON.stringify({ email: email, question: lastQuestion }),
-      })
-        .then(function (r) {
-          if (!r.ok) throw new Error("failed");
-          wrap.innerHTML = "<div>Thanks &mdash; we’ll be in touch at " + escapeHtml(email) + ".</div>";
+      var leadRequest = DEMO_MODE
+        ? fakeLeadSubmit()
+        : fetch(ASK_WORKER_URL + "/lead", {
+            method: "POST",
+            headers: { "content-type": "application/json" },
+            body: JSON.stringify({ email: email, question: lastQuestion }),
+          }).then(function (r) {
+            if (!r.ok) throw new Error("failed");
+          });
+
+      leadRequest
+        .then(function () {
+          wrap.innerHTML =
+            "<div>" +
+            (DEMO_MODE ? "(Demo) " : "") +
+            "Thanks &mdash; we’ll be in touch at " +
+            escapeHtml(email) +
+            ".</div>";
         })
         .catch(function () {
           wrap.innerHTML =
@@ -152,6 +177,57 @@
     var div = document.createElement("div");
     div.textContent = str;
     return div.innerHTML;
+  }
+
+  // ---- Demo-mode canned responses (no network calls) ----
+  function demoReply(text) {
+    var t = text.toLowerCase();
+    if (t.indexOf("price") !== -1 || t.indexOf("cost") !== -1 || t.indexOf("quote") !== -1) {
+      return {
+        reply:
+          "We don't publish set pricing since projects vary a lot in scope — it depends on which services you need and how bespoke the build is.",
+        offerFollowup: true,
+      };
+    }
+    if (t.indexOf("service") !== -1 || t.indexOf("do you do") !== -1 || t.indexOf("offer") !== -1) {
+      return {
+        reply:
+          "We cover event technology — registration sites, event apps, virtual event production, attendance management, touchscreen rental — plus content & community hubs, survey forms, and bespoke consultancy for anything off-the-shelf software can't handle.",
+        offerFollowup: false,
+      };
+    }
+    if (t.indexOf("ai") !== -1 || t.indexOf("template") !== -1) {
+      return {
+        reply:
+          "Every site runs on an AI-editable template — your team can safely update content through a normal CMS, while a technical site owner can use AI directly to edit the template itself. You stay in control of what matters, like customer data.",
+        offerFollowup: false,
+      };
+    }
+    if (t.indexOf("contact") !== -1 || t.indexOf("email") !== -1 || t.indexOf("talk") !== -1) {
+      return {
+        reply: "You can reach the team any time at hello@marketpartner.com, or I can take your details and we'll follow up.",
+        offerFollowup: true,
+      };
+    }
+    return {
+      reply:
+        "Good question — in the real version I'd answer that using everything we know about Market Partner's platform and services. Try asking about pricing, our services, or the AI-editable template to see a couple of other demo replies.",
+      offerFollowup: false,
+    };
+  }
+
+  function fakeAsk(text) {
+    return new Promise(function (resolve) {
+      setTimeout(function () {
+        resolve(demoReply(text));
+      }, 500 + Math.random() * 400);
+    });
+  }
+
+  function fakeLeadSubmit() {
+    return new Promise(function (resolve) {
+      setTimeout(resolve, 500);
+    });
   }
 
   function send() {
@@ -173,15 +249,18 @@
 
     var typing = addMessage("Thinking…", "bot");
 
-    fetch(ASK_WORKER_URL + "/ask", {
-      method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ message: text, history: history.slice(0, -1) }),
-    })
-      .then(function (r) {
-        if (!r.ok) throw new Error("bad status");
-        return r.json();
-      })
+    var askRequest = DEMO_MODE
+      ? fakeAsk(text)
+      : fetch(ASK_WORKER_URL + "/ask", {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: JSON.stringify({ message: text, history: history.slice(0, -1) }),
+        }).then(function (r) {
+          if (!r.ok) throw new Error("bad status");
+          return r.json();
+        });
+
+    askRequest
       .then(function (data) {
         typing.remove();
         var reply = data && data.reply ? data.reply : "Sorry, I didn’t catch that — could you rephrase?";
