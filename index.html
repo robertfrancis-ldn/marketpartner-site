@@ -394,8 +394,9 @@
   /* ---------- analytics & ROI ---------- */
   .analytics{ padding:96px 0; border-top:1px solid var(--border-soft); }
   .analytics .sub{ margin-top:18px; max-width:86ch; color:var(--ink-soft); font-size:16px; }
-  .stat-row{ margin-top:38px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
-  @media (max-width:640px){ .stat-row{ grid-template-columns:1fr; } }
+  .stat-row{ margin-top:38px; display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+  @media (max-width:860px){ .stat-row{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){ .stat-row{ grid-template-columns:1fr; } }
   .stat-box{ background:var(--brand); color:#fff; border-radius:14px; padding:22px 24px; font-size:17px; font-weight:600; line-height:1.35; }
 </style>
 </head>
@@ -596,6 +597,7 @@
       <div class="stat-row">
         <div class="stat-box">Full visibility, end to end — every click, view and interaction tracked from first touch to final conversion.</div>
         <div class="stat-box">ROI you can show your board — leads and conversations linked straight back to the content and campaigns that created them.</div>
+        <div class="stat-box">Connects straight to your CRM — Salesforce and more — so every lead lands where your sales team already works.</div>
       </div>
     </div>
   </section>
