@@ -388,6 +388,13 @@
   .role-card .chev{ flex:none; margin-top:5px; width:10px; height:10px; }
   .role-card .chev path{ stroke:var(--accent); }
   .role-card b{ color:var(--ink); font-weight:500; }
+
+  /* ---------- analytics & ROI ---------- */
+  .analytics{ padding:96px 0; border-top:1px solid var(--border-soft); }
+  .analytics .sub{ margin-top:18px; max-width:66ch; color:var(--ink-soft); font-size:16px; }
+  .stat-row{ margin-top:38px; display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  @media (max-width:640px){ .stat-row{ grid-template-columns:1fr; } }
+  .stat-box{ background:var(--brand); color:#fff; border-radius:14px; padding:22px 24px; font-size:17px; font-weight:600; line-height:1.35; }
 </style>
 </head>
 <body>
@@ -574,6 +581,19 @@
             <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Nothing to break — restricted to exactly what they need</li>
           </ul>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ANALYTICS & ROI -->
+  <section class="analytics" id="analytics">
+    <div class="wrap">
+      <div class="eyebrow"><span class="num">—</span> Analytics &amp; ROI</div>
+      <h2>Every action tracked. Every result explained.</h2>
+      <p class="sub">Real-time analytics run across every registration, app and form — so you can see exactly how visitors turn into leads and conversations, and prove the ROI on every event and campaign, not just guess at it.</p>
+      <div class="stat-row">
+        <div class="stat-box">Full visibility, end to end — every click, view and interaction tracked from first touch to final conversion.</div>
+        <div class="stat-box">ROI you can show your board — leads and conversations linked straight back to the content and campaigns that created them.</div>
       </div>
     </div>
   </section>
