@@ -275,11 +275,16 @@
   .service-grid.rev{ direction:rtl; }
   .service-grid.rev > *{ direction:ltr; }
   .service h3{ font-size:clamp(26px,3vw,36px); margin-top:14px; max-width:34ch; text-wrap:pretty; }
+  .service .sub{ margin-top:16px; color:var(--ink-soft); max-width:60ch; font-size:16px; }
   .service .feature-list{ margin-top:26px; display:flex; flex-direction:column; gap:13px; }
   .service .feature-list li{ display:flex; gap:12px; align-items:flex-start; font-size:15px; color:var(--ink-soft); }
   .service .feature-list .chev{ flex:none; margin-top:5px; width:10px; height:10px; }
   .service .feature-list .chev path{ stroke:var(--accent); }
   .service .feature-list b{ color:var(--ink); font-weight:500; }
+  .service .service-notes{ margin-top:26px; padding-top:22px; border-top:1px solid var(--border-soft); display:flex; flex-direction:column; gap:14px; }
+  .service .service-note{ display:flex; flex-direction:column; gap:3px; }
+  .service .service-note strong{ font-size:14px; color:var(--ink); font-weight:600; }
+  .service .service-note span{ font-size:14.5px; color:var(--ink-soft); }
 
   .visual{
     aspect-ratio:4/3.1; border-radius:22px; border:1px solid var(--border);
@@ -609,18 +614,20 @@
       <div>
         <div class="eyebrow">Event companion app</div>
         <h3>Event apps that keep people engaged, not just present</h3>
+        <p class="sub">A fully branded event companion, built around your audience and your event — combining personalised content, live interaction and networking, with our team supporting you every step of the way.</p>
         <ul class="feature-list">
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Full agenda and speaker line-up at a glance</li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Live polling and word clouds during sessions</li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Built-in Q&amp;A, comments and note-taking</li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Networking, chat and meeting scheduling between attendees</li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Custom lead-generation and feedback forms</li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> On-demand resources, presentations and downloads</li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Sponsor and partner placements built in</li>
+          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Personalised agendas, speakers and event information</li>
+          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Live polling, Q&amp;A, comments and feedback</li>
+          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Networking, chat and meeting scheduling</li>
+          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Content, resources and presentations on demand</li>
+          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Sponsor and partner experiences</li>
           <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Live captions and translation</li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span> Our team can be <b>onsite with you</b> for live support on the day</span></li>
-          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg><span> <b>Bespoke functionality</b> built to spec when you need it</span></li>
+          <li><svg class="chev" viewBox="0 0 10 10" fill="none"><path d="M3 1.5l4.5 3.5L3 8.5" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Real-time attendee insights and reporting</li>
         </ul>
+        <div class="service-notes">
+          <div class="service-note"><strong>Need something different?</strong><span>Bespoke functionality designed and built around your event.</span></div>
+          <div class="service-note"><strong>Need us there?</strong><span>Our team can provide onsite support throughout your event.</span></div>
+        </div>
         <div style="margin-top:28px;"><a class="btn btn-accent" href="companion-app.html">See the full event app details <span class="btn-arrow">→</span></a></div>
       </div>
       <div class="visual">
