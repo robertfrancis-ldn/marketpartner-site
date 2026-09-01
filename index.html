@@ -271,7 +271,7 @@
   .service{ padding:88px 0; border-top:1px solid var(--border-soft); }
   .service.alt{ background:var(--bg-alt); }
   .service-grid{ display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.85fr); gap:64px; align-items:center; }
-  @media (max-width:900px){ .service-grid{ grid-template-columns:1fr; gap:40px; } .visual{ aspect-ratio:4/2.17; } }
+  @media (max-width:900px){ .service-grid{ grid-template-columns:1fr; gap:40px; } .visual{ aspect-ratio:4/2.17; max-width:none; } }
   .service-grid.rev{ direction:rtl; }
   .service-grid.rev > *{ direction:ltr; }
   .service h3{ font-size:clamp(26px,3vw,36px); margin-top:14px; max-width:34ch; text-wrap:pretty; }
@@ -290,6 +290,7 @@
     aspect-ratio:4/3.1; border-radius:22px; border:1px solid var(--border);
     background:var(--bg-raised); position:relative; overflow:hidden;
     display:flex; align-items:center; justify-content:center;
+    width:100%; max-width:522px;
   }
   .visual::before{
     content:""; position:absolute; inset:0;
