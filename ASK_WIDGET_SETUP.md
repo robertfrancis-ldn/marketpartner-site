@@ -47,10 +47,13 @@ even with decent traffic, since it uses the cheap/fast Haiku model).
 4. Go to the Worker's **Settings → Variables and Secrets** and add:
    - `ANTHROPIC_API_KEY` — the key from Step 1. Mark it as **Secret** (not
      plain text).
-   - `ALLOWED_ORIGIN` — `https://robertfrancis-ldn.github.io` (no trailing
-     slash). This is what stops random other sites from using your Worker
-     and running up your bill. **Update this if you move to a custom
-     domain later.**
+   - `ALLOWED_ORIGIN` — `https://market-partner-sites.github.io` (no
+     trailing slash). This is what stops random other sites from using your
+     Worker and running up your bill. **Update this again if the repo ever
+     moves to a different GitHub org/user, or once the site moves to a
+     custom domain (e.g. `https://marketpartner.com`) — the value has to
+     match exactly wherever the site is actually being viewed from, or the
+     widget fails with a CORS error.**
    - `LEAD_WEBHOOK_URL` *(optional)* — see Step 4 below if you want the
      "leave your email" feature to actually notify you. You can skip this
      for now and add it later; the widget works fine without it.
@@ -59,21 +62,30 @@ even with decent traffic, since it uses the cheap/fast Haiku model).
 
 ## Step 3 — Point the widget at your Worker
 
-Open `assets/ask-widget.js` and find this line near the top:
+Open `assets/ask-widget.js` and find these two lines near the top:
 
 ```js
 var ASK_WORKER_URL = "REPLACE-WITH-YOUR-WORKER-URL";
+...
+var DEMO_MODE = true;
 ```
 
-Replace the placeholder with the URL you copied in Step 2, e.g.:
+Replace them with the Worker URL you copied in Step 2, and switch off demo
+mode:
 
 ```js
 var ASK_WORKER_URL = "https://marketpartner-ask-widget.yoursubdomain.workers.dev";
+...
+var DEMO_MODE = false;
 ```
 
+Until `DEMO_MODE` is set to `false`, the widget shows a few canned demo
+replies instead of calling the real backend — that's deliberate, so you can
+see the look and feel live on the site with zero setup and no cost.
+
 Save, commit, and push as usual (or send this one file back to me and I'll
-ship it the normal way). As soon as this is live, the chat button appears on
-every page.
+ship it the normal way). As soon as this is live, the widget calls the real
+AI instead of showing demo replies.
 
 ## Step 4 — (Optional) Get notified when someone leaves their email
 
