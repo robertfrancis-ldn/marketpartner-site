@@ -17,7 +17,7 @@
 
   // ---- CONFIG: set this to your deployed Worker URL, e.g. ----
   // "https://marketpartner-ask-widget.yoursubdomain.workers.dev"
-  var ASK_WORKER_URL = "https://dark-voice-2ce9.robert-chambers.workers.dev";
+  var ASK_WORKER_URL = "REPLACE-WITH-YOUR-WORKER-URL";
   // --------------------------------------------------------------
 
   // ---- TEMPORARY PREVIEW MODE ----
@@ -26,7 +26,7 @@
   // click through the actual UI on the live site before setting anything
   // up. Set to false (and set ASK_WORKER_URL above) once the real backend
   // is deployed — see ASK_WIDGET_SETUP.md.
-  var DEMO_MODE = false;
+  var DEMO_MODE = true;
   // ---------------------------------
 
   if (!DEMO_MODE && (!ASK_WORKER_URL || ASK_WORKER_URL.indexOf("REPLACE-WITH") !== -1)) {
@@ -83,7 +83,7 @@
     '<button type="button" class="mp-ask-close" aria-label="Close">&times;</button>' +
     "</div>" +
     '<div class="mp-ask-body" id="mpAskBody">' +
-    '<div class="mp-ask-msg bot">Hi &mdash; ask me anything about Market Partner’s platform, services or how we work. For anything urgent, email hello@marketpartner.com.</div>' +
+    '<div class="mp-ask-msg bot">Hi &mdash; ask me anything about Market Partner’s platform, services or how we work. For anything urgent, email talk@marketpartner.com.</div>' +
     "</div>" +
     '<div class="mp-ask-disclosure">' +
     (DEMO_MODE
@@ -166,7 +166,7 @@
         })
         .catch(function () {
           wrap.innerHTML =
-            "<div>Something went wrong &mdash; email us directly at hello@marketpartner.com instead.</div>";
+            "<div>Something went wrong &mdash; email us directly at talk@marketpartner.com instead.</div>";
         });
     });
     bodyEl.appendChild(wrap);
@@ -205,7 +205,7 @@
     }
     if (t.indexOf("contact") !== -1 || t.indexOf("email") !== -1 || t.indexOf("talk") !== -1) {
       return {
-        reply: "You can reach the team any time at hello@marketpartner.com, or I can take your details and we'll follow up.",
+        reply: "You can reach the team any time at talk@marketpartner.com, or I can take your details and we'll follow up.",
         offerFollowup: true,
       };
     }
@@ -235,7 +235,7 @@
     if (!text) return;
     if (messageCount >= MAX_MESSAGES_PER_SESSION) {
       addMessage(
-        "You’ve reached the limit for this session — email hello@marketpartner.com and we’ll pick up from here.",
+        "You’ve reached the limit for this session — email talk@marketpartner.com and we’ll pick up from here.",
         "system"
       );
       return;
@@ -273,7 +273,7 @@
       .catch(function () {
         typing.remove();
         addMessage(
-          "Something went wrong on our end — please email hello@marketpartner.com and we’ll help directly.",
+          "Something went wrong on our end — please email talk@marketpartner.com and we’ll help directly.",
           "bot"
         );
       })

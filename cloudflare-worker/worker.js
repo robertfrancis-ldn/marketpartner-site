@@ -27,7 +27,7 @@ ABOUT MARKET PARTNER
 - Every site/platform runs on an AI-editable template. This gives speed without losing control: a non-technical "event manager" can safely update content (agendas, speakers, forms) through a normal CMS with no access to the underlying template, while a technical "site owner" can use AI directly to edit the template itself. The point is harnessing AI while keeping control of what matters — customer data.
 - Full visibility on results: every visitor action is tracked end to end, and leads/conversions are linked back to the content and campaigns that produced them, so clients can show real ROI, not just activity.
 - Studio: The Boathouse Design Studio, 27 Ferry Road, Teddington, Richmond, London TW11 9NN.
-- Contact: hello@marketpartner.com.
+- Contact: talk@marketpartner.com.
 
 SERVICES (8 total)
 Event technology:

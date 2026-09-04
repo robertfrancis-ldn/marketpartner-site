@@ -1,0 +1,416 @@
+<title>Market Partner Deploy Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --bg:#ffffff;
+    --bg-alt:#f1f2f6;
+    --bg-raised:#ffffff;
+    --ink:#0b0b12;
+    --ink-soft:#51515f;
+    --ink-faint:#8a8a98;
+    --brand:#0000ff;
+    --accent:#e62db4;
+    --border:#e1e2ea;
+    --border-soft:#eceef3;
+    --code-bg:#0b0b12;
+    --code-ink:#e7e7ee;
+    --code-faint:#8a8a98;
+    --ok:#0a8a4a;
+    --focus:#0000ff;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0a0a12;
+      --bg-alt:#14141f;
+      --bg-raised:#15151f;
+      --ink:#f2f2f7;
+      --ink-soft:#b3b3c2;
+      --ink-faint:#77778a;
+      --brand:#6c78ff;
+      --accent:#ff62d4;
+      --border:#26263a;
+      --border-soft:#1d1d2c;
+      --code-bg:#050508;
+      --code-ink:#e7e7ee;
+      --code-faint:#82829a;
+      --ok:#3ecf8e;
+      --focus:#8d97ff;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0a0a12;
+    --bg-alt:#14141f;
+    --bg-raised:#15151f;
+    --ink:#f2f2f7;
+    --ink-soft:#b3b3c2;
+    --ink-faint:#77778a;
+    --brand:#6c78ff;
+    --accent:#ff62d4;
+    --border:#26263a;
+    --border-soft:#1d1d2c;
+    --code-bg:#050508;
+    --code-ink:#e7e7ee;
+    --code-faint:#82829a;
+    --ok:#3ecf8e;
+    --focus:#8d97ff;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; -webkit-text-size-adjust:100%; }
+  @media (prefers-reduced-motion: reduce){ html{ scroll-behavior:auto; } *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; } }
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"Hanken Grotesk",-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    font-weight:400; font-size:16.5px; line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{ margin:0; font-weight:800; letter-spacing:-0.01em; line-height:1.15; text-wrap:balance; }
+  p{ margin:0; }
+  a{ color:var(--brand); }
+  code, .mono{ font-family:"IBM Plex Mono",ui-monospace,monospace; }
+  :focus-visible{ outline:2px solid var(--focus); outline-offset:2px; border-radius:2px; }
+
+  .shell{ display:grid; grid-template-columns:250px 1fr; max-width:1180px; margin:0 auto; }
+  @media (max-width:900px){ .shell{ grid-template-columns:1fr; } }
+
+  /* ---------- top bar ---------- */
+  .topbar{
+    position:sticky; top:0; z-index:30;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 28px; background:color-mix(in srgb, var(--bg) 90%, transparent);
+    backdrop-filter:blur(10px); border-bottom:1px solid var(--border-soft);
+  }
+  .brand{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:15px; }
+  .brand .dot{ width:8px; height:8px; border-radius:50%; background:var(--brand); }
+  .eyebrow-top{ font-family:"IBM Plex Mono",monospace; font-size:12px; color:var(--ink-faint); letter-spacing:.04em; }
+  .theme-toggle{
+    display:flex; align-items:center; gap:8px;
+    background:var(--bg-raised); border:1px solid var(--border); border-radius:999px;
+    padding:7px 13px; font-size:12px; font-weight:500; color:var(--ink-soft); cursor:pointer;
+  }
+  .theme-toggle svg{ width:13px; height:13px; }
+
+  /* ---------- sidebar ---------- */
+  .sidenav{
+    padding:32px 20px 60px;
+    border-right:1px solid var(--border-soft);
+    align-self:start; position:sticky; top:61px;
+    max-height:calc(100vh - 61px); overflow-y:auto;
+  }
+  @media (max-width:900px){ .sidenav{ position:static; border-right:none; border-bottom:1px solid var(--border-soft); max-height:none; padding:20px 24px; } }
+  .sidenav h6{ margin:0 0 10px; font-family:"IBM Plex Mono",monospace; font-size:10.5px; text-transform:uppercase; letter-spacing:.08em; color:var(--ink-faint); font-weight:500; }
+  .sidenav ol{ list-style:none; margin:0 0 22px; padding:0; display:flex; flex-direction:column; gap:1px; counter-reset:phase; }
+  .sidenav a{
+    counter-increment:phase;
+    display:flex; align-items:baseline; gap:9px;
+    padding:8px 10px; margin:0 -10px; border-radius:8px;
+    font-size:13.5px; font-weight:500; color:var(--ink-soft); text-decoration:none;
+  }
+  .sidenav a::before{
+    content:counter(phase,decimal-leading-zero);
+    font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--accent); flex:none;
+  }
+  .sidenav a:hover{ background:var(--bg-alt); color:var(--ink); }
+  .sidenav .req{ font-size:12px; color:var(--ink-faint); line-height:1.5; padding:12px; background:var(--bg-alt); border-radius:10px; }
+  .sidenav .req strong{ display:block; color:var(--ink); font-weight:600; margin-bottom:4px; }
+
+  /* ---------- main ---------- */
+  main{ padding:44px 32px 100px; min-width:0; }
+  @media (max-width:640px){ main{ padding:32px 20px 80px; } }
+
+  .intro h1{ font-size:clamp(28px,4vw,38px); color:var(--brand); }
+  .intro .lede{ margin-top:14px; font-size:17px; color:var(--ink-soft); max-width:62ch; }
+  .path-cards{ margin-top:26px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+  @media (max-width:720px){ .path-cards{ grid-template-columns:1fr; } }
+  .path-card{ border:1px solid var(--border); border-radius:14px; padding:16px 16px 18px; background:var(--bg-alt); }
+  .path-card .n{ font-family:"IBM Plex Mono",monospace; font-size:11px; color:var(--accent); }
+  .path-card h4{ margin-top:6px; font-size:15px; }
+  .path-card p{ margin-top:6px; font-size:13px; color:var(--ink-soft); line-height:1.5; }
+
+  section.phase{ padding-top:56px; margin-top:56px; border-top:1px solid var(--border-soft); scroll-margin-top:76px; }
+  section.phase:first-of-type{ border-top:none; margin-top:44px; padding-top:0; }
+  .phase-head{ display:flex; align-items:baseline; gap:14px; }
+  .phase-head .num{ font-family:"IBM Plex Mono",monospace; font-size:14px; color:var(--accent); }
+  .phase-head h2{ font-size:clamp(22px,2.6vw,28px); }
+  .phase-sub{ margin-top:8px; font-size:15px; color:var(--ink-soft); max-width:64ch; }
+
+  .step{ margin-top:28px; padding-left:22px; border-left:2px solid var(--border-soft); }
+  .step h3{ font-size:16.5px; font-weight:700; }
+  .step p{ margin-top:8px; font-size:14.5px; color:var(--ink-soft); max-width:66ch; }
+  .step p + p{ margin-top:10px; }
+
+  pre{
+    margin:12px 0 0; padding:14px 16px; border-radius:10px;
+    background:var(--code-bg); color:var(--code-ink);
+    font-family:"IBM Plex Mono",monospace; font-size:13px; line-height:1.65;
+    overflow-x:auto; -webkit-overflow-scrolling:touch;
+  }
+  pre .c{ color:var(--code-faint); }
+  code.inline{
+    background:var(--bg-alt); border:1px solid var(--border-soft); border-radius:5px;
+    padding:1px 6px; font-size:13px; color:var(--ink);
+  }
+
+  .callout{
+    margin-top:14px; padding:12px 14px; border-radius:10px; font-size:13.5px; line-height:1.55;
+    border:1px solid var(--border-soft); background:var(--bg-alt); color:var(--ink-soft);
+  }
+  .callout.warn{ border-color:color-mix(in srgb, var(--accent) 35%, var(--border)); }
+  .callout strong{ color:var(--ink); }
+
+  ul.plain{ list-style:none; margin:10px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; }
+  ul.plain li{ font-size:14.5px; color:var(--ink-soft); padding-left:16px; position:relative; }
+  ul.plain li::before{ content:"–"; position:absolute; left:0; color:var(--ink-faint); }
+
+  table.compare{ margin-top:14px; width:100%; border-collapse:collapse; font-size:13.5px; }
+  table.compare th, table.compare td{ text-align:left; padding:9px 12px; border-bottom:1px solid var(--border-soft); }
+  table.compare th{ font-family:"IBM Plex Mono",monospace; font-size:11px; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-faint); font-weight:500; }
+  table.compare td{ color:var(--ink-soft); }
+  table.compare tr:last-child td{ border-bottom:none; }
+  .compare-wrap{ overflow-x:auto; }
+
+  .checklist{ margin-top:14px; display:flex; flex-direction:column; gap:8px; }
+  .checklist label{ display:flex; align-items:flex-start; gap:10px; font-size:14.5px; color:var(--ink-soft); cursor:pointer; }
+  .checklist input{ margin-top:3px; accent-color:var(--brand); flex:none; }
+
+  footer.end{ margin-top:64px; padding-top:24px; border-top:1px solid var(--border-soft); font-size:13px; color:var(--ink-faint); }
+</style>
+
+<div class="topbar">
+  <div class="brand"><span class="dot"></span> Market Partner <span class="eyebrow-top" style="margin-left:8px;">— Deploy Guide</span></div>
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle color theme">
+    <svg id="themeIcon" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="4.2" stroke="currentColor" stroke-width="1.6"/><path d="M12 2.5v2M12 19.5v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2.5 12h2M19.5 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    <span id="themeLabel">Auto</span>
+  </button>
+</div>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="Guide phases">
+    <h6>On this page</h6>
+    <ol>
+      <li><a href="#prep">What's ready already</a></li>
+      <li><a href="#github">Push to GitHub</a></li>
+      <li><a href="#preview">Quick live preview</a></li>
+      <li><a href="#s3">S3 static hosting</a></li>
+      <li><a href="#cloudfront">CloudFront + HTTPS</a></li>
+      <li><a href="#dns">Point marketpartner.com</a></li>
+      <li><a href="#cicd">Auto-deploy on push</a></li>
+      <li><a href="#checklist">Launch checklist</a></li>
+    </ol>
+    <div class="req">
+      <strong>You'll need</strong>
+      A GitHub account, an AWS account with billing set up, and access to marketpartner.com's DNS (wherever the domain is currently registered).
+    </div>
+  </nav>
+
+  <main>
+    <div class="intro">
+      <h1>Getting Market Partner live</h1>
+      <p class="lede">The site is six static HTML pages — no server, no database, nothing to run. This guide takes it from where it sits today (hosted as private preview pages) to a real, fast, HTTPS site at marketpartner.com, via GitHub for version control and AWS for hosting.</p>
+      <div class="path-cards">
+        <div class="path-card">
+          <div class="n">01–02</div>
+          <h4>Source control</h4>
+          <p>Get the code into a GitHub repo, so every change is tracked and nothing lives only on one machine.</p>
+        </div>
+        <div class="path-card">
+          <div class="n">03–06</div>
+          <h4>Hosting</h4>
+          <p>S3 stores the files, CloudFront serves them fast over HTTPS worldwide, and DNS points your domain at it.</p>
+        </div>
+        <div class="path-card">
+          <div class="n">07–08</div>
+          <h4>Keep it current</h4>
+          <p>A GitHub Actions workflow pushes every future change live automatically — no manual re-upload.</p>
+        </div>
+      </div>
+    </div>
+
+    <section class="phase" id="prep">
+      <div class="phase-head"><span class="num">00</span><h2>What's ready already</h2></div>
+      <p class="phase-sub">Attached to this conversation is <code class="inline">marketpartner-static-site.zip</code> — download and unzip it before starting. It contains:</p>
+      <ul class="plain">
+        <li><code class="inline">index.html</code> plus the five service pages, with every internal link already rewritten to plain relative filenames (no more claude.ai URLs) — this was the one code change needed before the site can live anywhere else.</li>
+        <li><code class="inline">.github/workflows/deploy.yml</code> — a ready-made GitHub Actions workflow that syncs the site to S3 on every push. It's inert until you add the AWS secrets described in phase 07.</li>
+        <li><code class="inline">README.md</code> — a short recap of this same structure, for future reference inside the repo itself.</li>
+      </ul>
+      <div class="callout"><strong>Nothing else needs to change in the code.</strong> The rest of this guide is entirely GitHub/AWS console and DNS work.</div>
+    </section>
+
+    <section class="phase" id="github">
+      <div class="phase-head"><span class="num">01</span><h2>Create the GitHub repository</h2></div>
+      <p class="phase-sub">This becomes the single source of truth for the site — and the trigger for every future deploy.</p>
+
+      <div class="step">
+        <h3>Create the repo</h3>
+        <p>At <a href="https://github.com/new" target="_blank" rel="noopener">github.com/new</a>, create a repository named <code class="inline">marketpartner-site</code> (or similar). Leave it empty — don't initialize with a README, since you already have one.</p>
+      </div>
+
+      <div class="step">
+        <h3>Push the code</h3>
+        <p>If you're comfortable with git, unzip the download and run this from inside the <code class="inline">dist</code> folder:</p>
+        <pre><span class="c"># from inside the unzipped folder</span>
+git init
+git add .
+git commit -m "Initial site"
+git branch -M main
+git remote add origin https://github.com/&lt;your-username&gt;/marketpartner-site.git
+git push -u origin main</pre>
+        <p>No git installed, or would rather skip the command line? GitHub's web uploader works fine for a static site: open the new repo, click <strong>Add file → Upload files</strong>, and drag in everything from the unzipped folder (including the hidden <code class="inline">.github</code> folder — you may need to enable "show hidden files" in your file browser to see it).</p>
+      </div>
+
+      <div class="callout">Once pushed, refresh the repo page — you should see six HTML files, the README, and a <code class="inline">.github/workflows</code> folder.</div>
+    </section>
+
+    <section class="phase" id="preview">
+      <div class="phase-head"><span class="num">02</span><h2>Quick live preview (optional)</h2></div>
+      <p class="phase-sub">Before touching AWS, GitHub Pages gives you a free, real URL in about a minute — a good way to sanity-check the export worked before investing in the AWS setup.</p>
+      <div class="step">
+        <h3>Turn on Pages</h3>
+        <p>In the repo, go to <strong>Settings → Pages</strong>. Under "Build and deployment", set Source to <strong>Deploy from a branch</strong>, branch <code class="inline">main</code>, folder <code class="inline">/ (root)</code>, then Save.</p>
+        <p>GitHub will publish the site at <code class="inline">https://&lt;your-username&gt;.github.io/marketpartner-site/</code> within a minute or two. Click through the nav, the mobile menu, and a couple of subpages to confirm everything works outside of claude.ai.</p>
+      </div>
+      <div class="callout">This step is entirely optional and doesn't affect the AWS setup below — treat it as a checkpoint, not a destination. You can leave Pages on as a permanent staging URL, or turn it off later.</div>
+    </section>
+
+    <section class="phase" id="s3">
+      <div class="phase-head"><span class="num">03</span><h2>Create the S3 bucket</h2></div>
+      <p class="phase-sub">S3 will store and serve the actual files. In the AWS Console, go to <strong>S3 → Create bucket</strong>.</p>
+      <div class="step">
+        <h3>Bucket settings</h3>
+        <ul class="plain">
+          <li>Bucket name: <code class="inline">marketpartner.com</code> (matching the domain makes bucket policies and future debugging simpler, though it isn't strictly required once CloudFront is in front of it).</li>
+          <li>Region: whichever is closest to your team — it has no effect on visitors once CloudFront is added.</li>
+          <li>Block Public Access: leave <strong>on</strong> (all four boxes checked). CloudFront will read from the bucket privately via Origin Access Control, so the bucket itself never needs to be public — the more secure and current approach, replacing the older "public bucket + S3 website endpoint" method.</li>
+        </ul>
+      </div>
+      <div class="step">
+        <h3>Upload the files</h3>
+        <p>Open the new bucket, click <strong>Upload</strong>, and add the six HTML files (skip <code class="inline">.github</code> and <code class="inline">README.md</code> — those are for the repo, not the live site).</p>
+      </div>
+    </section>
+
+    <section class="phase" id="cloudfront">
+      <div class="phase-head"><span class="num">04</span><h2>CloudFront: HTTPS, speed, and a real domain</h2></div>
+      <p class="phase-sub">CloudFront is AWS's CDN — it puts the site on servers close to every visitor, and it's how S3 content gets HTTPS and a custom domain.</p>
+
+      <div class="step">
+        <h3>Request the certificate first</h3>
+        <p>In <strong>AWS Certificate Manager</strong> — importantly, in the <strong>us-east-1 (N. Virginia)</strong> region regardless of where the bucket lives, since that's the only region CloudFront reads certificates from — request a public certificate for:</p>
+        <pre>marketpartner.com
+www.marketpartner.com</pre>
+        <p>Choose DNS validation. ACM will give you a CNAME record to add at your DNS provider; the certificate issues automatically once that record is detected (usually within minutes to a few hours).</p>
+      </div>
+
+      <div class="step">
+        <h3>Create the distribution</h3>
+        <p>In <strong>CloudFront → Create distribution</strong>:</p>
+        <ul class="plain">
+          <li>Origin domain: select your S3 bucket from the dropdown (not the "website endpoint" — the plain bucket option, since Origin Access Control handles the private read).</li>
+          <li>Origin access: Origin Access Control (OAC) — create a new control setting and accept the default. CloudFront will show you a bucket policy to paste into S3's Permissions tab afterward; copy it across.</li>
+          <li>Viewer protocol policy: Redirect HTTP to HTTPS.</li>
+          <li>Alternate domain names (CNAMEs): <code class="inline">marketpartner.com</code> and <code class="inline">www.marketpartner.com</code>.</li>
+          <li>Custom SSL certificate: select the one requested above.</li>
+          <li>Default root object: <code class="inline">index.html</code> — without this, visiting the bare domain shows an error instead of the homepage.</li>
+        </ul>
+      </div>
+
+      <div class="callout warn"><strong>One extra setting worth adding:</strong> subpage links in this site are plain filenames (<code class="inline">registration-sites.html</code>, not clean URLs), so no rewrite rules are needed for those. If you'd like visitors to reach pages without the <code class="inline">.html</code>, that's a CloudFront Function/Lambda@Edge step — worth doing later, not required to launch.</div>
+    </section>
+
+    <section class="phase" id="dns">
+      <div class="phase-head"><span class="num">05</span><h2>Point marketpartner.com at CloudFront</h2></div>
+      <p class="phase-sub">Once the distribution is deployed (status changes from "Deploying" to "Enabled" — typically 5–15 minutes), it has a <code class="inline">*.cloudfront.net</code> domain. Point your real domain at it.</p>
+
+      <div class="compare-wrap">
+        <table class="compare">
+          <tr><th>If DNS is on Route 53</th><th>Otherwise (GoDaddy, Namecheap, etc.)</th></tr>
+          <tr>
+            <td>Add an <strong>A record (Alias)</strong> for both <code class="inline">marketpartner.com</code> and <code class="inline">www</code>, pointing directly at the CloudFront distribution — Route 53 offers this as a built-in alias target.</td>
+            <td>Add a <strong>CNAME</strong> for <code class="inline">www</code> pointing to the <code class="inline">*.cloudfront.net</code> address. For the bare/apex domain, most registrars now support "ALIAS" or "ANAME" records that behave like Route 53's alias — check your provider's docs for the exact name.</td>
+          </tr>
+        </table>
+      </div>
+      <p style="margin-top:12px;">DNS changes can take anywhere from a few minutes to 24–48 hours to fully propagate, depending on the previous record's TTL.</p>
+    </section>
+
+    <section class="phase" id="cicd">
+      <div class="phase-head"><span class="num">06</span><h2>Wire up auto-deploy</h2></div>
+      <p class="phase-sub">The <code class="inline">deploy.yml</code> workflow already in the repo handles this — it just needs credentials.</p>
+
+      <div class="step">
+        <h3>Create a deploy-only IAM user</h3>
+        <p>In <strong>IAM → Users → Create user</strong>, create one named e.g. <code class="inline">github-deploy</code>, with programmatic access only (no console password). Attach a policy scoped to just this bucket and distribution rather than full admin access:</p>
+        <pre>{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": ["s3:PutObject", "s3:DeleteObject", "s3:ListBucket"],
+      "Resource": [
+        "arn:aws:s3:::marketpartner.com",
+        "arn:aws:s3:::marketpartner.com/*"
+      ]
+    },
+    {
+      "Effect": "Allow",
+      "Action": "cloudfront:CreateInvalidation",
+      "Resource": "*"
+    }
+  ]
+}</pre>
+        <p>Generate an access key for this user (Security credentials tab) and keep the key ID and secret somewhere safe — the secret is only shown once.</p>
+      </div>
+
+      <div class="step">
+        <h3>Add the secrets to GitHub</h3>
+        <p>In the repo, go to <strong>Settings → Secrets and variables → Actions</strong> and add:</p>
+        <ul class="plain">
+          <li><code class="inline">AWS_ACCESS_KEY_ID</code> / <code class="inline">AWS_SECRET_ACCESS_KEY</code> — from the IAM user above.</li>
+          <li><code class="inline">AWS_REGION</code> — the region the bucket was created in, e.g. <code class="inline">eu-west-2</code>.</li>
+          <li><code class="inline">AWS_S3_BUCKET</code> — <code class="inline">marketpartner.com</code>.</li>
+          <li><code class="inline">CLOUDFRONT_DISTRIBUTION_ID</code> — found on the distribution's detail page in CloudFront.</li>
+        </ul>
+        <p>From the next push to <code class="inline">main</code> onward, the workflow uploads the changed files and clears the CloudFront cache automatically — edit locally, push, and the live site updates within a minute or two.</p>
+      </div>
+    </section>
+
+    <section class="phase" id="checklist">
+      <div class="phase-head"><span class="num">07</span><h2>Before calling it launched</h2></div>
+      <p class="phase-sub">A few things worth confirming once the domain is live.</p>
+      <div class="checklist">
+        <label><input type="checkbox"> Every nav link, mobile menu item, and "Works alongside" card was clicked through on the live domain, not just in preview.</label>
+        <label><input type="checkbox"> <code class="inline">talk@marketpartner.com</code> is a real, monitored inbox — it's currently a placeholder throughout the header, footer, and every contact CTA.</label>
+        <label><input type="checkbox"> The site loads over <code class="inline">https://marketpartner.com</code> <em>and</em> <code class="inline">https://www.marketpartner.com</code> without certificate warnings.</label>
+        <label><input type="checkbox"> The old <code class="inline">/eventpartner/</code> microsite either redirects somewhere sensible or is intentionally left as-is.</label>
+        <label><input type="checkbox"> Real client names for the anonymized case studies have been confirmed with the team, if that's the direction you want to take.</label>
+      </div>
+    </section>
+
+    <footer class="end">Prepared alongside the Market Partner site rebuild · update this guide's copy in the repo as the real deployment details settle.</footer>
+  </main>
+</div>
+
+<script>
+  (function(){
+    var root = document.documentElement;
+    var btn = document.getElementById('themeToggle');
+    var label = document.getElementById('themeLabel');
+    function apply(mode){
+      if(mode === 'light' || mode === 'dark'){ root.setAttribute('data-theme', mode); }
+      else { root.removeAttribute('data-theme'); }
+      label.textContent = mode === 'dark' ? 'Dark' : mode === 'light' ? 'Light' : 'Auto';
+    }
+    var current = 'auto';
+    try { current = sessionStorage.getItem('mp-guide-theme') || 'auto'; } catch(e){}
+    apply(current);
+    btn.addEventListener('click', function(){
+      current = current === 'auto' ? 'dark' : current === 'dark' ? 'light' : 'auto';
+      apply(current);
+      try { sessionStorage.setItem('mp-guide-theme', current); } catch(e){}
+    });
+  })();
+</script>
