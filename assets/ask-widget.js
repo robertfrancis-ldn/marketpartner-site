@@ -17,7 +17,7 @@
 
   // ---- CONFIG: set this to your deployed Worker URL, e.g. ----
   // "https://marketpartner-ask-widget.yoursubdomain.workers.dev"
-  var ASK_WORKER_URL = "REPLACE-WITH-YOUR-WORKER-URL";
+  var ASK_WORKER_URL = "https://dark-voice-2ce9.robert-chambers.workers.dev";
   // --------------------------------------------------------------
 
   // ---- TEMPORARY PREVIEW MODE ----
@@ -26,7 +26,7 @@
   // click through the actual UI on the live site before setting anything
   // up. Set to false (and set ASK_WORKER_URL above) once the real backend
   // is deployed — see ASK_WIDGET_SETUP.md.
-  var DEMO_MODE = true;
+  var DEMO_MODE = false;
   // ---------------------------------
 
   if (!DEMO_MODE && (!ASK_WORKER_URL || ASK_WORKER_URL.indexOf("REPLACE-WITH") !== -1)) {
